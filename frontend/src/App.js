@@ -25,6 +25,7 @@ function App() {
           <Route path="/login" element={<LoginPage isLogin={isLogin} />} />
           <Route path="/counter" isLogin={isLogin} element={<Counter />} />
           <Route path="/user/myInfo" element={<MyInfo isLogin={isLogin} />} />
+
           <Route path="/*" element={<h1>존재하지 않는 페이지입니다.</h1>} />
         </Routes>
       </BrowserRouter>

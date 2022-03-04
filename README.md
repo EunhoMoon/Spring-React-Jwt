@@ -21,6 +21,7 @@ plugins
 - yarn add redux react-redux
 - yarn add react-bootstrap bootstrap
 - yarn add styled-components
+- yarn add @mui/material @emotion/react @emotion/styled
 
 ```txt
 import 'bootstrap/dist/css/bootstrap.min.css';
