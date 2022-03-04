@@ -39,7 +39,9 @@ CREATE TABLE user (
   roles  VARCHAR(256) DEFAULT 'ROLE_USER'
 );
 
+```
+
 ### To Do Lists
 
-- 프론트 단 요청/응답 처리
-```
+- 회원 테이블 수정
+- 회원 정보 수정 기능 구현
