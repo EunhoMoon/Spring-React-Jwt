@@ -9,9 +9,9 @@ import org.springframework.security.core.userdetails.UserDetails;
 import study.janek.springreactjwt.model.User;
 
 public class PrincipalDetails implements UserDetails {
-	
+
 	private User user;
-	
+
 	public PrincipalDetails(User user) {
 		this.user = user;
 	}
@@ -19,8 +19,8 @@ public class PrincipalDetails implements UserDetails {
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
 		Collection<GrantedAuthority> authorities = new ArrayList<>();
-		user.getRoleList().forEach(r->{
-			authorities.add(()->r);
+		user.getRoleList().forEach(r -> {
+			authorities.add(() -> r);
 		});
 		return authorities;
 	}
@@ -37,25 +37,21 @@ public class PrincipalDetails implements UserDetails {
 
 	@Override
 	public boolean isAccountNonExpired() {
-		// TODO Auto-generated method stub
 		return true;
 	}
 
 	@Override
 	public boolean isAccountNonLocked() {
-		// TODO Auto-generated method stub
 		return true;
 	}
 
 	@Override
 	public boolean isCredentialsNonExpired() {
-		// TODO Auto-generated method stub
 		return true;
 	}
 
 	@Override
 	public boolean isEnabled() {
-		// TODO Auto-generated method stub
 		return true;
 	}
 
@@ -66,5 +62,5 @@ public class PrincipalDetails implements UserDetails {
 	public void setUser(User user) {
 		this.user = user;
 	}
-	
+
 }
