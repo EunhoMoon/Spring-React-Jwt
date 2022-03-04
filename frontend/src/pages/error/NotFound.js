@@ -11,11 +11,11 @@ import errorimage from "../../images/404-error.jpg";
 export default function NotFound() {
   const navigate = useNavigate();
   return (
-    <Card sx={{ maxWidth: 345 }} style={{ margin: "30px auto" }}>
+    <Card sx={{ maxWidth: 500 }} style={{ margin: "30px auto" }}>
       <CardMedia
         component="img"
-        alt="green iguana"
-        height="140"
+        alt="404 page not found"
+        height="310"
         image={errorimage}
       />
       <CardContent>

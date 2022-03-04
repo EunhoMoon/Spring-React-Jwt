@@ -34,6 +34,7 @@ export default function MyInfo() {
       .catch((error) => {
         if (error.response.status === 500) {
           alert("다시 로그인 해주세요.");
+          sessionStorage.clear();
           navigate("/login");
         }
       });
