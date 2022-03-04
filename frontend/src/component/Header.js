@@ -10,7 +10,7 @@ import Container from "@mui/material/Container";
 import Button from "@mui/material/Button";
 import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import ManageAccountsIcon from "@mui/icons-material/ManageAccounts";
 
 const Header = ({ isLogin }) => {
@@ -49,7 +49,7 @@ const Header = ({ isLogin }) => {
   };
 
   return (
-    <AppBar position="static">
+    <AppBar position="static" style={{ background: "#2E3B55" }}>
       <Container maxWidth="xl">
         <Toolbar disableGutters>
           <Typography
@@ -58,7 +58,9 @@ const Header = ({ isLogin }) => {
             component="div"
             sx={{ mr: 2, display: { xs: "none", md: "flex" } }}
           >
-            <strong>LOGO</strong>
+            <Link to={"/"} className="linkText" style={{ fontWeight: "bold" }}>
+              LOGO
+            </Link>
           </Typography>
 
           <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>

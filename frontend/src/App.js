@@ -5,7 +5,8 @@ import { useEffect, useState } from "react";
 import Counter from "./component/Counter";
 import Header from "./component/Header";
 import MyInfo from "./pages/user/MyInfo";
-import TestHeader from "./pages/test";
+import InsetDividers from "./pages/test";
+import NotFound from "./pages/error/NotFound";
 
 function App() {
   const [isLogin, setIsLogin] = useState(false);
@@ -25,9 +26,9 @@ function App() {
           <Route path="/" element={<HomePage />} />
           <Route path="/login" element={<LoginPage isLogin={isLogin} />} />
           <Route path="/counter" isLogin={isLogin} element={<Counter />} />
-          <Route path="/user/myInfo" element={<MyInfo isLogin={isLogin} />} />
-          <Route path="/test" element={<TestHeader isLogin={isLogin} />} />
-          <Route path="/*" element={<h1>존재하지 않는 페이지입니다.</h1>} />
+          <Route path="/user/myInfo" element={<MyInfo />} />
+          <Route path="/test" element={<InsetDividers isLogin={isLogin} />} />
+          <Route path="/*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>
     </div>

@@ -12,6 +12,7 @@ import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import { Alert } from "@mui/material";
 
 const theme = createTheme();
 
@@ -76,7 +77,7 @@ export default function LoginPage({ isLogin }) {
             <LockOutlinedIcon />
           </Avatar>
           <Typography component="h1" variant="h5">
-            Sign in
+            로그인
           </Typography>
           <Box
             component="form"
@@ -111,8 +112,9 @@ export default function LoginPage({ isLogin }) {
               fullWidth
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
+              style={{ background: "#2E3B55" }}
             >
-              Sign In
+              로그인하기
             </Button>
             <Grid container>
               <Grid item xs>
