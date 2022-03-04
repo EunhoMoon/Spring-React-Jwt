@@ -22,6 +22,7 @@ plugins
 - yarn add react-bootstrap bootstrap
 - yarn add styled-components
 - yarn add @mui/material @emotion/react @emotion/styled
+- yarn add @mui/icons-material
 
 ```txt
 import 'bootstrap/dist/css/bootstrap.min.css';

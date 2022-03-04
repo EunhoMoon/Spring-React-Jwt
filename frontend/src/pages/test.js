@@ -7,13 +7,13 @@ import Typography from "@mui/material/Typography";
 import Menu from "@mui/material/Menu";
 import MenuIcon from "@mui/icons-material/Menu";
 import Container from "@mui/material/Container";
+import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
 import { useNavigate } from "react-router-dom";
-import ManageAccountsIcon from "@mui/icons-material/ManageAccounts";
 
-const Header = ({ isLogin }) => {
+const TestHeader = ({ isLogin }) => {
   const pages = ["Board"];
   const settings = isLogin ? ["Profile", "Logout"] : ["Login", "Join"];
   const navigate = useNavigate();
@@ -58,7 +58,7 @@ const Header = ({ isLogin }) => {
             component="div"
             sx={{ mr: 2, display: { xs: "none", md: "flex" } }}
           >
-            <strong>LOGO</strong>
+            LOGO
           </Typography>
 
           <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
@@ -92,9 +92,7 @@ const Header = ({ isLogin }) => {
             >
               {pages.map((page) => (
                 <MenuItem key={page} onClick={handleCloseNavMenu}>
-                  <Typography textAlign="center">
-                    <strong>{page}</strong>
-                  </Typography>
+                  <Typography textAlign="center">{page}</Typography>
                 </MenuItem>
               ))}
             </Menu>
@@ -105,7 +103,7 @@ const Header = ({ isLogin }) => {
             component="div"
             sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}
           >
-            <strong>LOGO</strong>
+            LOGO
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
             {pages.map((page) => (
@@ -114,7 +112,7 @@ const Header = ({ isLogin }) => {
                 onClick={handleCloseNavMenu}
                 sx={{ my: 2, color: "white", display: "block" }}
               >
-                <strong>{page}</strong>
+                {page}
               </Button>
             ))}
           </Box>
@@ -122,7 +120,7 @@ const Header = ({ isLogin }) => {
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <ManageAccountsIcon fontSize="large" />
+                <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
               </IconButton>
             </Tooltip>
             {isLogin ? (
@@ -190,4 +188,4 @@ const Header = ({ isLogin }) => {
     </AppBar>
   );
 };
-export default Header;
+export default TestHeader;
