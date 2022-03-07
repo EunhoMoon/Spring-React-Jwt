@@ -47,5 +47,4 @@ CREATE TABLE user (
 
 ### To Do Lists
 
-- 회원 가입 기능 구현
 - 회원 정보 수정 기능 구현
