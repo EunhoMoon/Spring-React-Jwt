@@ -7,8 +7,12 @@
 		SELECT * FROM user WHERE username=#{username}
 	</select>
 	
-	<insert id="joinUser" parameterType="study.janek.springreactjwt.model.User">
-		INSERT INTO user (username, password) VALUES (#{username}, #{password}) 
+	<insert id="joinUser" parameterType="study.janek.springreactjwt.model.User" >
+		INSERT INTO user (username, password, name, email) VALUES (#{username}, #{password}, #{name}, #{email}) 
 	</insert>
+	
+	<update id="loginProc" parameterType="String">
+		UPDATE user SET lastLogin=now() WHERE username=#{username}
+	</update>
 
 </mapper>

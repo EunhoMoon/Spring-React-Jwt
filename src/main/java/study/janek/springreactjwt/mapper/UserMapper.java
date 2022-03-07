@@ -9,6 +9,8 @@ public interface UserMapper {
 	
 	public User findByUsername(String username);
 	
-	public void joinUser(User user);
+	public int joinUser(User user);
+	
+	public void loginProc(String username);
 	
 }

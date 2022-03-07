@@ -34,14 +34,18 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 /* 회원 테이블 */
 CREATE TABLE user (
   id INT AUTO_INCREMENT PRIMARY KEY,
-  username VARCHAR(256) NOT NULL,
+  username VARCHAR(256) NOT NULL UNIQUE,
   password VARCHAR(256) NOT NULL,
-  roles  VARCHAR(256) DEFAULT 'ROLE_USER'
+  name VARCHAR(256) NOT NULL,
+  email VARCHAR(256),
+  roles VARCHAR(256) DEFAULT 'ROLE_USER',
+  joinDate DATETIME DEFAULT NOW(),
+  lastLogin DATETIME
 );
 
 ```
 
 ### To Do Lists
 
-- 회원 테이블 수정
+- 회원 가입 기능 구현
 - 회원 정보 수정 기능 구현

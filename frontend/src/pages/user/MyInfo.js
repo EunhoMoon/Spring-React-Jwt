@@ -4,10 +4,10 @@ import ListItem from "@mui/material/ListItem";
 import ListItemText from "@mui/material/ListItemText";
 import ListItemAvatar from "@mui/material/ListItemAvatar";
 import Avatar from "@mui/material/Avatar";
-import ImageIcon from "@mui/icons-material/Image";
-import WorkIcon from "@mui/icons-material/Work";
-import BeachAccessIcon from "@mui/icons-material/BeachAccess";
 import Divider from "@mui/material/Divider";
+import AccountBoxIcon from "@mui/icons-material/AccountBox";
+import DateRangeIcon from "@mui/icons-material/DateRange";
+import EmailIcon from "@mui/icons-material/Email";
 import { Container } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
@@ -15,6 +15,9 @@ import axios from "axios";
 export default function MyInfo() {
   const [user, setUser] = React.useState({
     username: "",
+    name: "",
+    email: "",
+    joinDate: "",
   });
   const token = sessionStorage.getItem("Authorization");
   const navigate = useNavigate();
@@ -35,7 +38,7 @@ export default function MyInfo() {
         if (error.response.status === 500) {
           alert("다시 로그인 해주세요.");
           sessionStorage.clear();
-          navigate("/login");
+          window.location.replace("/login");
         }
       });
   }, []);
@@ -53,29 +56,44 @@ export default function MyInfo() {
         <ListItem>
           <ListItemAvatar>
             <Avatar>
-              <ImageIcon />
+              <AccountBoxIcon />
             </Avatar>
           </ListItemAvatar>
-          <ListItemText primary="사용자 아이디" secondary={user.username} />
+          <ListItemText primary="아이디" secondary={user.username} />
         </ListItem>
         <Divider variant="inset" component="li" />
         <ListItem>
           <ListItemAvatar>
             <Avatar>
-              <WorkIcon />
+              <AccountBoxIcon />
             </Avatar>
           </ListItemAvatar>
-          <ListItemText primary="Work" secondary="Jan 7, 2014" />
+          <ListItemText primary="이름" secondary={user.name} />
         </ListItem>
         <Divider variant="inset" component="li" />
         <ListItem>
           <ListItemAvatar>
             <Avatar>
-              <BeachAccessIcon />
+              <EmailIcon />
             </Avatar>
           </ListItemAvatar>
-          <ListItemText primary="Vacation" secondary="July 20, 2014" />
+          <ListItemText
+            primary="이메일"
+            secondary={
+              user.email === null || user.email === "" ? "-" : user.email
+            }
+          />
         </ListItem>
+        <Divider variant="inset" component="li" />
+        <ListItem>
+          <ListItemAvatar>
+            <Avatar>
+              <DateRangeIcon />
+            </Avatar>
+          </ListItemAvatar>
+          <ListItemText primary="가입일" secondary={user.joinDate} />
+        </ListItem>
+        <Divider variant="inset" component="li" />
       </List>
     </Container>
   );

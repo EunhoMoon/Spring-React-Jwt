@@ -9,7 +9,11 @@ public class User {
 	private Long id;
 	private String username;
 	private String password;
+	private String name;
+	private String email;
 	private String roles;
+	private String joinDate;
+	private String lastLogin;
 
 	public Long getId() {
 		return id;
@@ -35,6 +39,22 @@ public class User {
 		this.password = password;
 	}
 
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
 	public String getRoles() {
 		return roles;
 	}
@@ -43,11 +63,27 @@ public class User {
 		this.roles = roles;
 	}
 
+	public String getJoinDate() {
+		return joinDate;
+	}
+
+	public void setJoinDate(String joinDate) {
+		this.joinDate = joinDate;
+	}
+	
+	public String getLastLogin() {
+		return lastLogin;
+	}
+
+	public void setLastLogin(String lastLogin) {
+		this.lastLogin = lastLogin;
+	}
+
 	@Override
 	public String toString() {
 		return "User [username=" + username + ", password=" + password + "]";
 	}
-	
+
 	public List<String> getRoleList() {
 		if (this.roles.length() > 0) {
 			return Arrays.asList(this.roles.split(","));

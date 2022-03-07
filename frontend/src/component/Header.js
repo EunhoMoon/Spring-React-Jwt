@@ -45,6 +45,8 @@ const Header = ({ isLogin }) => {
       window.location.replace("/");
     } else if (value === "Profile") {
       navigate("/user/myInfo");
+    } else if ((value = "Join")) {
+      navigate("/join");
     }
   };
 
