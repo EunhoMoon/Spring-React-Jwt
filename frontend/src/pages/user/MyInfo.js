@@ -8,9 +8,11 @@ import Divider from "@mui/material/Divider";
 import AccountBoxIcon from "@mui/icons-material/AccountBox";
 import DateRangeIcon from "@mui/icons-material/DateRange";
 import EmailIcon from "@mui/icons-material/Email";
+import AssignmentIcon from "@mui/icons-material/Assignment";
 import { Container } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import { Button, Grid } from "@mui/material";
 
 export default function MyInfo() {
   const [user, setUser] = React.useState({
@@ -43,6 +45,11 @@ export default function MyInfo() {
       });
   }, []);
 
+  const moveLocation = (e) => {
+    const locationName = e.target.name;
+    navigate("/user/" + locationName);
+  };
+
   return (
     <Container>
       <List
@@ -65,7 +72,7 @@ export default function MyInfo() {
         <ListItem>
           <ListItemAvatar>
             <Avatar>
-              <AccountBoxIcon />
+              <AssignmentIcon />
             </Avatar>
           </ListItemAvatar>
           <ListItemText primary="이름" secondary={user.name} />
@@ -94,6 +101,43 @@ export default function MyInfo() {
           <ListItemText primary="가입일" secondary={user.joinDate} />
         </ListItem>
         <Divider variant="inset" component="li" />
+
+        <Grid container spacing={2}>
+          <Grid item xs={12} sm={6}>
+            <Button
+              type="button"
+              variant="contained"
+              name="updateInfo"
+              onClick={moveLocation}
+              sx={{
+                mt: 3,
+                mb: 2,
+                ml: 1.5,
+                background: "#2E3B55",
+                width: "100%",
+              }}
+            >
+              정보 수정
+            </Button>
+          </Grid>
+          <Grid item xs={12} sm={6}>
+            <Button
+              type="button"
+              variant="contained"
+              name="updatePass"
+              onClick={moveLocation}
+              sx={{
+                mt: 3,
+                mb: 2,
+                ml: 1.5,
+                background: "#2E3B55",
+                width: "100%",
+              }}
+            >
+              비밀번호 변경
+            </Button>
+          </Grid>
+        </Grid>
       </List>
     </Container>
   );

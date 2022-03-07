@@ -7,6 +7,7 @@ import MyInfo from "./pages/user/MyInfo";
 import InsetDividers from "./pages/test";
 import NotFound from "./pages/error/NotFound";
 import JoinPage from "./pages/user/JoinPage";
+import UpdatePass from "./pages/user/UpdatePass";
 
 function App() {
   const [isLogin, setIsLogin] = useState(false);
@@ -27,6 +28,7 @@ function App() {
           <Route path="/login" element={<LoginPage isLogin={isLogin} />} />
           <Route path="/join" element={<JoinPage />} />
           <Route path="/user/myInfo" element={<MyInfo />} />
+          <Route path="/user/updatePass" element={<UpdatePass />} />
           <Route path="/test" element={<InsetDividers isLogin={isLogin} />} />
           <Route path="/*" element={<NotFound />} />
         </Routes>

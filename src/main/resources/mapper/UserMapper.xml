@@ -14,5 +14,9 @@
 	<update id="loginProc" parameterType="String">
 		UPDATE user SET lastLogin=now() WHERE username=#{username}
 	</update>
+	
+	<select id="chkUserPass" parameterType="String" resultType="int">
+		SELECT COUNT(*) FROM user WHERE username=#{username} AND password=#{password}
+	</select>
 
 </mapper>

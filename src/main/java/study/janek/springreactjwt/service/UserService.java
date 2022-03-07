@@ -34,6 +34,19 @@ public class UserService {
 		return userMapper.findByUsername(username);
 	}
 	
+	public int chkUserPass(String jwtToken, String oldPass) {
+		jwtToken = jwtToken.replace(JwtProperties.TOKEN_PREFIX, "");
+		String username = 
+				JWT.require(Algorithm.HMAC512(JwtProperties.SECRET)).build().verify(jwtToken).getClaim("username").asString();
+		String password = 
+				JWT.require(Algorithm.HMAC512(JwtProperties.SECRET)).build().verify(jwtToken).getClaim("password").asString();
+		if (!password.equals(oldPass)) {
+			return 2;
+		} 
+		
+		return userMapper.chkUserPass(username, oldPass);
+	}
+	
 	public User userInfo(String jwtToken) {
 		jwtToken = jwtToken.replace(JwtProperties.TOKEN_PREFIX, "");
 		String username = 

@@ -2,6 +2,7 @@ import * as React from "react";
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
+import { red, green, orange } from "@mui/material/colors";
 import TextField from "@mui/material/TextField";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
@@ -41,7 +42,7 @@ export default function JoinPage() {
   const [checkDup, setCheckDup] = React.useState(false);
   const [checkPass, setCheckPass] = React.useState(false);
   const [passImg, setPassImg] = React.useState(
-    <ErrorOutlineIcon color="error" />
+    <ErrorOutlineIcon sx={{ color: red[500] }} />
   );
 
   const handleChange = (event) => {
@@ -52,7 +53,6 @@ export default function JoinPage() {
   };
 
   React.useEffect(() => {
-    console.log(token);
     if (token !== null) {
       alert("잘못된 경로로 들어오셨습니다.");
       navigate(-1);
@@ -64,12 +64,15 @@ export default function JoinPage() {
       ...user,
       [e.target.name]: e.target.value,
     });
+    if (e.target.name === "username") {
+      setCheckDup(false);
+    }
   };
 
   const usernameDupCheck = (e) => {
     if (user.username !== null && user.username !== "") {
       axios
-        .get("/findUsername/" + user.username)
+        .get("/api/findUsername/" + user.username)
         .then((res) => {
           if (res.data !== null && res.data !== "") {
             setButtonColor("error");
@@ -94,10 +97,10 @@ export default function JoinPage() {
       e.target.value !== "" &&
       e.target.value === user.password
     ) {
-      setPassImg(<CheckCircleOutlineIcon color="success" />);
+      setPassImg(<CheckCircleOutlineIcon sx={{ color: green[500] }} />);
       setCheckPass(true);
     } else {
-      setPassImg(<ErrorOutlineIcon color="error" />);
+      setPassImg(<ErrorOutlineIcon sx={{ color: red[500] }} />);
       setCheckPass(false);
     }
   };
@@ -114,6 +117,8 @@ export default function JoinPage() {
       return false;
     } else if (!checkDup) {
       alert("아이디 중복확인을 해주세요.");
+      setButtonColor("warning");
+      setButtonImage(<QuestionMarkIcon />);
     } else if (!checkPass) {
       alert("비밀번호가 다릅니다.");
     } else {
@@ -135,7 +140,7 @@ export default function JoinPage() {
     };
     if (chkValue(userData)) {
       axios
-        .post("/join", JSON.stringify(userData), {
+        .post("/api/join", JSON.stringify(userData), {
           headers: {
             "Content-Type": `application/json`,
           },
@@ -143,7 +148,7 @@ export default function JoinPage() {
         .then((res) => {
           if (res.status === 201) {
             alert("회원가입이 완료되었습니다.");
-            window.location.replace("/login");
+            navigate("/login");
           }
         })
         .catch((error) => {
@@ -187,6 +192,7 @@ export default function JoinPage() {
                   label="아이디"
                   autoFocus
                   onChange={changeValue}
+                  required
                 />
               </Grid>
               <Grid item xs={12} sm={3}>
@@ -211,6 +217,7 @@ export default function JoinPage() {
                   id="password"
                   autoComplete="new-password"
                   onChange={changeValue}
+                  required
                 />
               </Grid>
               <Grid item xs={12}>
@@ -222,6 +229,7 @@ export default function JoinPage() {
                   id="password2"
                   autoComplete="new-password"
                   onChange={checkPassValue}
+                  required
                   InputProps={{
                     endAdornment: (
                       <InputAdornment position="end">{passImg}</InputAdornment>
@@ -237,10 +245,11 @@ export default function JoinPage() {
                   id="name"
                   label="이름"
                   autoFocus
+                  required
                   onChange={changeValue}
                 />
               </Grid>
-              <Grid item xs={12} sm={4}>
+              <Grid item xs={12} sm={6}>
                 <TextField
                   fullWidth
                   id="email"
@@ -253,7 +262,7 @@ export default function JoinPage() {
               <Grid item xs={12} sm={1}>
                 <AlternateEmailIcon sx={{ mt: 2, ml: -0.5 }} />
               </Grid>
-              <Grid item xs={12} sm={7}>
+              <Grid item xs={12} sm={5}>
                 <Box sx={{ minWidth: 120 }}>
                   <FormControl fullWidth>
                     <InputLabel id="demo-simple-select-label">

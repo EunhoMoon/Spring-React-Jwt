@@ -26,17 +26,22 @@ public class UserApiController {
 		return "<h1>Home</h1>";
 	}
 	
-	@PostMapping("/join")
+	@PostMapping("/api/join")
 	public ResponseEntity<?> join(@RequestBody User user) {
 		return new ResponseEntity<>(userService.joinUser(user), HttpStatus.CREATED);
 	}
 	
-	@GetMapping("/findUsername/{username}")
+	@GetMapping("/api/findUsername/{username}")
 	public User findUsername(@PathVariable("username") String username) {
 		System.out.println("username : " + username);
 		User user = userService.findUsername(username);
 		System.out.println(user);
 		return user;
+	}
+	
+	@PostMapping("/api/chkUserPass")
+	public int chkUserPass(@RequestHeader("Authorization") String jwtToken, String oldPass) {
+		return userService.chkUserPass(jwtToken, oldPass);
 	}
 	
 	@PostMapping("/api/user/info")

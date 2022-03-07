@@ -42,12 +42,6 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 		
 		// 1. username, password를 받음
 		try {
-//			BufferedReader br = request.getReader();
-//			
-//			String input = null;
-//			while ((input = br.readLine()) != null) {
-//				System.out.println(input);
-//			}
 			ObjectMapper om = new ObjectMapper();
 			User user  = om.readValue(request.getInputStream(), User.class);
 			System.out.println(user);
