@@ -21,6 +21,7 @@ const theme = createTheme();
 export default function UpdatePass() {
   const token = sessionStorage.getItem("Authorization");
   const navigate = useNavigate();
+  axios.defaults.headers.common["Authorization"] = token;
   const [user, setUser] = React.useState({
     username: "",
     oldPassword: "",
@@ -37,7 +38,7 @@ export default function UpdatePass() {
       alert("잘못된 경로로 들어오셨습니다.");
       navigate(-1);
     }
-  }, []);
+  });
 
   const changeValue = (e) => {
     setUser({
@@ -62,8 +63,14 @@ export default function UpdatePass() {
 
   const chkValue = (value) => {
     if (value.newPassword === null || value.newPassword === "") {
-      alert("비밀번호를 입력하세요.");
+      alert("변경할 비밀번호를 입력하세요.");
       return false;
+    } else if (value.oldPassword === null || value.oldPassword === "") {
+      alert("기존 비밀번호를 입력하세요.");
+    } else if (value.oldPassword === value.newPassword) {
+      alert("기존 암호와 다른 암호만 변경 가능합니다.");
+    } else if (!checkPass) {
+      alert("비밀번호 확인을 확인하세요.");
     } else {
       return true;
     }
@@ -71,6 +78,51 @@ export default function UpdatePass() {
 
   const handleSubmit = (event) => {
     event.preventDefault();
+    if (chkValue(user)) {
+      const frm = new FormData();
+      frm.append("oldPass", user.oldPassword);
+      frm.append("newPass", user.newPassword);
+
+      axios
+        .post("/api/user/chkUserPass", frm, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        })
+        .then((res) => {
+          if (res.data === 1) {
+            axios
+              .post("/api/user/updatePass", frm, {
+                headers: {
+                  "Content-Type": "multipart/form-data",
+                },
+              })
+              .then((res) => {
+                if (res.status === 200) {
+                  alert(
+                    "비밀번호 변경이 완료되었습니다. \n다시 로그인 해주세요."
+                  );
+                  sessionStorage.clear();
+                  navigate("/login");
+                }
+              })
+              .catch((error) => {
+                alert(
+                  "비밀번호 변경시 문제가 발생했습니다.\n잠시후 다시 시도해보세요."
+                );
+              });
+          } else {
+            alert("기존 암호를 확인해주세요.");
+          }
+        })
+        .catch((error) => {
+          if (error.response.status === 500) {
+            alert("다시 로그인 해주세요.");
+            sessionStorage.clear();
+            window.location.replace("/login");
+          }
+        });
+    }
   };
 
   return (

@@ -3,7 +3,6 @@ package study.janek.springreactjwt.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -11,7 +10,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RestController;
 
-import study.janek.springreactjwt.mapper.UserMapper;
 import study.janek.springreactjwt.model.User;
 import study.janek.springreactjwt.service.UserService;
 
@@ -33,15 +31,9 @@ public class UserApiController {
 	
 	@GetMapping("/api/findUsername/{username}")
 	public User findUsername(@PathVariable("username") String username) {
-		System.out.println("username : " + username);
 		User user = userService.findUsername(username);
-		System.out.println(user);
+		
 		return user;
-	}
-	
-	@PostMapping("/api/chkUserPass")
-	public int chkUserPass(@RequestHeader("Authorization") String jwtToken, String oldPass) {
-		return userService.chkUserPass(jwtToken, oldPass);
 	}
 	
 	@PostMapping("/api/user/info")
@@ -49,6 +41,16 @@ public class UserApiController {
 		User user = userService.userInfo(jwtToken);
 		
 		return user;
+	}
+	
+	@PostMapping("/api/user/chkUserPass")
+	public int chkUserPass(@RequestHeader("Authorization") String jwtToken, String oldPass) {
+		return userService.chkUserPass(jwtToken, oldPass);
+	}
+	
+	@PostMapping("/api/user/updatePass")
+	public ResponseEntity<?> updatePass(@RequestHeader("Authorization") String jwtToken, String newPass) {
+		return new ResponseEntity<>(userService.updatePass(jwtToken, newPass), HttpStatus.OK);
 	}
 	
 	@GetMapping("/api/admin")

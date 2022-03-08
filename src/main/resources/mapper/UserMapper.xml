@@ -15,8 +15,12 @@
 		UPDATE user SET lastLogin=now() WHERE username=#{username}
 	</update>
 	
-	<select id="chkUserPass" parameterType="String" resultType="int">
-		SELECT COUNT(*) FROM user WHERE username=#{username} AND password=#{password}
+	<select id="chkUserPass" parameterType="String" resultType="String">
+		SELECT password FROM user WHERE username=#{username}
 	</select>
+	
+	<update id="updatePass" parameterType="String">
+		UPDATE user SET password=#{newPass} WHERE username=#{username}
+	</update>
 
 </mapper>

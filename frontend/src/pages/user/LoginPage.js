@@ -12,12 +12,12 @@ import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import { Alert } from "@mui/material";
 
 const theme = createTheme();
 
-export default function LoginPage({ isLogin }) {
+export default function LoginPage() {
   const navigate = useNavigate();
+  const token = sessionStorage.getItem("Authorization");
   const [user, setuser] = React.useState({
     username: "",
     password: "",
@@ -31,11 +31,11 @@ export default function LoginPage({ isLogin }) {
   };
 
   React.useEffect(() => {
-    if (isLogin) {
+    if (token !== null && token !== "") {
       alert("잘못된 경로로 들어오셨습니다.");
       navigate(-1);
     }
-  }, [isLogin]);
+  });
 
   const submitLogin = (e) => {
     e.preventDefault();

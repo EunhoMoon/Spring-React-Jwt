@@ -38,13 +38,13 @@ public class UserService {
 		jwtToken = jwtToken.replace(JwtProperties.TOKEN_PREFIX, "");
 		String username = 
 				JWT.require(Algorithm.HMAC512(JwtProperties.SECRET)).build().verify(jwtToken).getClaim("username").asString();
-		String password = 
-				JWT.require(Algorithm.HMAC512(JwtProperties.SECRET)).build().verify(jwtToken).getClaim("password").asString();
-		if (!password.equals(oldPass)) {
-			return 2;
-		} 
+		String encodePass = userMapper.chkUserPass(username);
 		
-		return userMapper.chkUserPass(username, oldPass);
+		boolean isMatch = bCryptPasswordEncoder.matches(oldPass, encodePass);
+		
+		int result = isMatch ? 1 : 0;
+		
+		return result;
 	}
 	
 	public User userInfo(String jwtToken) {
@@ -55,6 +55,15 @@ public class UserService {
 		user.setJoinDate(user.getJoinDate().substring(0, 10));
 		
 		return user;
+	}
+	
+	public int updatePass(String jwtToken, String newPass) {
+		jwtToken = jwtToken.replace(JwtProperties.TOKEN_PREFIX, "");
+		String username = 
+				JWT.require(Algorithm.HMAC512(JwtProperties.SECRET)).build().verify(jwtToken).getClaim("username").asString();
+		newPass = bCryptPasswordEncoder.encode(newPass);
+		
+		return userMapper.updatePass(username, newPass);
 	}
 	
 }

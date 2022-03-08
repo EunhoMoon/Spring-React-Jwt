@@ -13,6 +13,8 @@ public interface UserMapper {
 	
 	public void loginProc(String username);
 	
-	public int chkUserPass(String username, String password);
+	public String chkUserPass(String username);
+	
+	public int updatePass(String username, String newPass);
 	
 }
