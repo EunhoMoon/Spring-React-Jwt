@@ -38,6 +38,7 @@ const Header = ({ isLogin }) => {
 
   const moveUserPage = (event) => {
     let value = event.target.outerText;
+    console.log(value);
     if (value === "Login") {
       navigate("/login");
     } else if (value === "Logout") {
@@ -45,8 +46,10 @@ const Header = ({ isLogin }) => {
       window.location.replace("/");
     } else if (value === "Profile") {
       navigate("/user/myInfo");
-    } else if ((value = "Join")) {
+    } else if (value === "Join") {
       navigate("/join");
+    } else if (value === "BOARD" || value === "Board") {
+      navigate("/board/list/1");
     }
   };
 
@@ -95,7 +98,7 @@ const Header = ({ isLogin }) => {
               }}
             >
               {pages.map((page) => (
-                <MenuItem key={page} onClick={handleCloseNavMenu}>
+                <MenuItem key={page} name={page} onClick={moveUserPage}>
                   <Typography textAlign="center">
                     <strong>{page}</strong>
                   </Typography>
@@ -115,7 +118,8 @@ const Header = ({ isLogin }) => {
             {pages.map((page) => (
               <Button
                 key={page}
-                onClick={handleCloseNavMenu}
+                onClick={moveUserPage}
+                name={page}
                 sx={{ my: 2, color: "white", display: "block" }}
               >
                 <strong>{page}</strong>

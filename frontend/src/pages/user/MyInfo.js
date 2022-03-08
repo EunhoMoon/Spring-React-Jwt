@@ -12,7 +12,9 @@ import AssignmentIcon from "@mui/icons-material/Assignment";
 import { Container } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import { Button, Grid } from "@mui/material";
+import { Box, Button, Grid, Typography } from "@mui/material";
+import PersonOutlineOutlinedIcon from "@mui/icons-material/PersonOutlineOutlined";
+import { blue } from "@mui/material/colors";
 
 export default function MyInfo() {
   const [user, setUser] = React.useState({
@@ -52,10 +54,22 @@ export default function MyInfo() {
 
   return (
     <Container>
+      <Box
+        sx={{
+          marginTop: 8,
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+        }}
+      >
+        <Typography component="h1" variant="h5">
+          회원 정보
+        </Typography>
+      </Box>
       <List
         sx={{
           width: "100%",
-          maxWidth: 360,
+          maxWidth: 400,
           bgcolor: "background.paper",
         }}
         style={{ margin: "10px auto" }}

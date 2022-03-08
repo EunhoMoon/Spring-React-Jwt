@@ -23,6 +23,8 @@ plugins
 - yarn add styled-components
 - yarn add @mui/material @emotion/react @emotion/styled
 - yarn add @mui/icons-material
+- yarn add @mui/lab
+- npm i @date-io/date-fns@1.x date-fns
 
 ```txt
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -43,6 +45,17 @@ CREATE TABLE user (
   lastLogin DATETIME
 );
 
+/* 게시판 테이블 */
+CREATE TABLE board (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  title VARCHAR(256) NOT NULL,
+  content VARCHAR(256) NOT NULL,
+  writer VARCHAR(256) NOT NULL,
+  writeDate DATETIME DEFAULT NOW(),
+  readCnt INT DEFAULT 0,
+  likeCnt INT DEFAULT 0,
+  FOREIGN KEY (writer) REFERENCES user (username)
+);
 ```
 
 ### To Do Lists

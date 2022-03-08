@@ -192,14 +192,32 @@ export default function UpdatePass() {
                 />
               </Grid>
             </Grid>
-            <Button
-              type="submit"
-              fullWidth
-              variant="contained"
-              sx={{ mt: 3, mb: 2, background: "#2E3B55" }}
-            >
-              비밀번호 변경
-            </Button>
+
+            <Grid container spacing={2}>
+              <Grid item xs={12} sm={6}>
+                <Button
+                  type="submit"
+                  fullWidth
+                  variant="contained"
+                  sx={{ mt: 3, mb: 2, background: "#2E3B55" }}
+                >
+                  비밀번호 변경
+                </Button>
+              </Grid>
+              <Grid item xs={12} sm={6}>
+                <Button
+                  type="button"
+                  fullWidth
+                  variant="contained"
+                  sx={{ mt: 3, mb: 2, background: "#2E3B55" }}
+                  onClick={() => {
+                    navigate(-1);
+                  }}
+                >
+                  취 소
+                </Button>
+              </Grid>
+            </Grid>
           </Box>
         </Box>
       </Container>

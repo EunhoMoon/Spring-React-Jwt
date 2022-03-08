@@ -8,6 +8,8 @@ import InsetDividers from "./pages/test";
 import NotFound from "./pages/error/NotFound";
 import JoinPage from "./pages/user/JoinPage";
 import UpdatePass from "./pages/user/UpdatePass";
+import Calendar from "./pages/service/Calendar";
+import BoardList from "./pages/board/BoardList";
 
 function App() {
   const [isLogin, setIsLogin] = useState(false);
@@ -30,6 +32,8 @@ function App() {
           <Route path="/user/myInfo" element={<MyInfo />} />
           <Route path="/user/updatePass" element={<UpdatePass />} />
           <Route path="/test" element={<InsetDividers isLogin={isLogin} />} />
+          <Route path="/board/list/:pNum" element={<BoardList />} />
+          <Route path="/calendar" element={<Calendar />} />
           <Route path="/*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>

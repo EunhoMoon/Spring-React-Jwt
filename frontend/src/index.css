@@ -16,7 +16,22 @@ code {
 .linkText :link,
 .linkText :active,
 .linkText :visited,
-.linkText:hover {
+.linkText :hover {
   color: white;
   text-decoration: none;
+}
+
+.titleLink,
+.titleLink :link,
+.titleLink :active,
+.titleLink :visited {
+  color: black;
+  text-decoration: none;
+}
+
+.titleLink :hover,
+.titleLink :focus {
+  color: black;
+  font-size: 1.1em;
+  font-weight: bold;
 }

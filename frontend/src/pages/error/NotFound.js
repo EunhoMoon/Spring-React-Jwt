@@ -6,7 +6,7 @@ import CardMedia from "@mui/material/CardMedia";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import { useNavigate } from "react-router-dom";
-import errorimage from "../../images/404-error.jpg";
+import errorimage from "../../images/errorPage.jpg";
 
 export default function NotFound() {
   const navigate = useNavigate();
@@ -15,7 +15,7 @@ export default function NotFound() {
       <CardMedia
         component="img"
         alt="404 page not found"
-        height="310"
+        height="410"
         image={errorimage}
       />
       <CardContent>
