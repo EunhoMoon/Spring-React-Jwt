@@ -1,5 +1,7 @@
 package study.janek.springreactjwt.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -8,7 +10,9 @@ import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 
 import study.janek.springreactjwt.config.auth.jwt.JwtProperties;
+import study.janek.springreactjwt.dto.UserInfoDto;
 import study.janek.springreactjwt.mapper.UserMapper;
+import study.janek.springreactjwt.model.Board;
 import study.janek.springreactjwt.model.User;
 
 @Service
@@ -47,14 +51,23 @@ public class UserService {
 		return result;
 	}
 	
-	public User userInfo(String jwtToken) {
+	public UserInfoDto userInfo(String jwtToken) {
 		jwtToken = jwtToken.replace(JwtProperties.TOKEN_PREFIX, "");
 		String username = 
 				JWT.require(Algorithm.HMAC512(JwtProperties.SECRET)).build().verify(jwtToken).getClaim("username").asString();
 		User user = userMapper.findByUsername(username);
-		user.setJoinDate(user.getJoinDate().substring(0, 10));
+		UserInfoDto userInfoDto = new UserInfoDto();
 		
-		return user;
+		user.setJoinDate(user.getJoinDate().substring(0, 10));
+		List<Board> userContents = userMapper.getUserContents(username);
+		for (Board board : userContents) {
+			board.setWriteDate(board.getWriteDate().substring(0, 10));
+		}
+		
+		userInfoDto.setUser(user);
+		userInfoDto.setUserContents(userContents);
+		
+		return userInfoDto;
 	}
 	
 	public int updatePass(String jwtToken, String newPass) {

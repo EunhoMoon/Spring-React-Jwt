@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 
 import study.janek.springreactjwt.model.Board;
+import study.janek.springreactjwt.model.BoardLike;
 
 @Mapper
 public interface BoardMapper {
@@ -14,6 +15,8 @@ public interface BoardMapper {
 	public int getListSize();
 	
 	public Board getBoardItem(int boardId);
+	
+	public List<BoardLike> getBoardLike(int boardId);
 	
 	public int insertBoard(Board board);
 	

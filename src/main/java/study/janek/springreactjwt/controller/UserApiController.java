@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RestController;
 
+import study.janek.springreactjwt.dto.UserInfoDto;
 import study.janek.springreactjwt.model.User;
 import study.janek.springreactjwt.service.UserService;
 
@@ -37,10 +38,10 @@ public class UserApiController {
 	}
 	
 	@PostMapping("/api/user/info")
-	public User userInfo(@RequestHeader("Authorization") String jwtToken) {
-		User user = userService.userInfo(jwtToken);
+	public UserInfoDto userInfo(@RequestHeader("Authorization") String jwtToken) {
+		UserInfoDto userInfoDto = userService.userInfo(jwtToken);
 		
-		return user;
+		return userInfoDto;
 	}
 	
 	@PostMapping("/api/user/chkUserPass")

@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RestController;
 
+import study.janek.springreactjwt.dto.BoardInfoDto;
 import study.janek.springreactjwt.model.Board;
 import study.janek.springreactjwt.model.PageNation;
 import study.janek.springreactjwt.service.BoardService;
@@ -27,7 +28,7 @@ public class BoardApiController {
 	}
 	
 	@GetMapping("/api/getBoardItem/{boardId}")
-	public Board getBoardItem(@PathVariable int boardId) {
+	public BoardInfoDto getBoardItem(@PathVariable int boardId) {
 		return boardService.getBoardItem(boardId);
 	}
 	

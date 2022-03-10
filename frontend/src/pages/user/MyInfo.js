@@ -12,7 +12,18 @@ import AssignmentIcon from "@mui/icons-material/Assignment";
 import { Container } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import { Box, Button, Grid, Typography } from "@mui/material";
+import InboxIcon from "@mui/icons-material/MoveToInbox";
+import {
+  Box,
+  Button,
+  Collapse,
+  Grid,
+  ListItemButton,
+  ListItemIcon,
+  Typography,
+} from "@mui/material";
+import ExpandLess from "@mui/icons-material/ExpandLess";
+import ExpandMore from "@mui/icons-material/ExpandMore";
 
 export default function MyInfo() {
   const [user, setUser] = React.useState({
@@ -21,9 +32,15 @@ export default function MyInfo() {
     email: "",
     joinDate: "",
   });
+  const [userContents, setUserContents] = React.useState([]);
   const token = sessionStorage.getItem("Authorization");
   const navigate = useNavigate();
   axios.defaults.headers.common["Authorization"] = token;
+  const [open, setOpen] = React.useState(false);
+
+  const handleClick = () => {
+    setOpen(!open);
+  };
 
   React.useEffect(() => {
     if (token === null || token === "") {
@@ -34,7 +51,8 @@ export default function MyInfo() {
     axios
       .post("/api/user/info")
       .then((res) => {
-        setUser(res.data);
+        setUser(res.data.user);
+        setUserContents(res.data.userContents);
       })
       .catch((error) => {
         if (error.response.status === 500) {
@@ -113,6 +131,47 @@ export default function MyInfo() {
           <ListItemText primary="가입일" secondary={user.joinDate} />
         </ListItem>
         <Divider variant="inset" component="li" />
+        <ListItemButton onClick={handleClick}>
+          <ListItemAvatar>
+            <Avatar>
+              <InboxIcon />
+            </Avatar>
+          </ListItemAvatar>
+          <ListItemText primary="작성 게시물" secondary="최근 10개 게시물" />
+          {open ? <ExpandLess /> : <ExpandMore />}
+        </ListItemButton>
+        <Divider variant="inset" component="li" />
+        <Collapse in={open} timeout="auto" unmountOnExit>
+          <List component="div" disablePadding>
+            {userContents.map((content) => (
+              <ListItemButton
+                sx={{ pl: 4 }}
+                onClick={() => navigate("/board/detail/" + content.id)}
+                key={"@" + content.id}
+              >
+                <ListItemIcon></ListItemIcon>
+                <Grid container>
+                  <Grid item xs={12} sm={8}>
+                    <ListItemText primary={content.title} />
+                  </Grid>
+                  <Grid item xs={12} sm={4}>
+                    <ListItemText primary={content.writeDate} />
+                  </Grid>
+                </Grid>
+              </ListItemButton>
+            ))}
+            <ListItemButton sx={{ pl: 4 }}>
+              <ListItemIcon></ListItemIcon>
+              <Grid container>
+                <Grid item xs={12} sm={8}></Grid>
+                <Grid item xs={12} sm={4} textAlign="right">
+                  <ListItemText secondary="더보기..." />
+                </Grid>
+              </Grid>
+            </ListItemButton>
+          </List>
+          <Divider variant="inset" component="li" />
+        </Collapse>
 
         <Grid container spacing={2}>
           <Grid item xs={12} sm={6}>

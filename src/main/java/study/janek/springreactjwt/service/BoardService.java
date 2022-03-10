@@ -9,8 +9,10 @@ import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 
 import study.janek.springreactjwt.config.auth.jwt.JwtProperties;
+import study.janek.springreactjwt.dto.BoardInfoDto;
 import study.janek.springreactjwt.mapper.BoardMapper;
 import study.janek.springreactjwt.model.Board;
+import study.janek.springreactjwt.model.BoardLike;
 import study.janek.springreactjwt.model.PageNation;
 
 @Service
@@ -43,11 +45,16 @@ public class BoardService {
 		return result;
 	}
 
-	public Board getBoardItem(int boardId) {
+	public BoardInfoDto getBoardItem(int boardId) {
+		BoardInfoDto boardInfoDto = new BoardInfoDto();
 		Board board = boardMapper.getBoardItem(boardId);
+		List<BoardLike> boardLikes = boardMapper.getBoardLike(boardId);
 		board.setWriteDate(board.getWriteDate().substring(0, 10) + " " + board.getWriteDate().substring(11, 16));
 
-		return board;
+		boardInfoDto.setBoard(board);
+		boardInfoDto.setBoardLike(boardLikes);
+		
+		return boardInfoDto;
 	}
 	
 	public int insertBoard(String jwtToken, Board board) {

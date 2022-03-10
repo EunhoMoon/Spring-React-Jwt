@@ -11,6 +11,8 @@
 			alias="User" />
 		<typeAlias type="study.janek.springreactjwt.model.Board"
 			alias="Board" />
+		<typeAlias type="study.janek.springreactjwt.model.BoardLike"
+			alias="BoardLike" />
 	</typeAliases>
 
 	<mappers>

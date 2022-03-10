@@ -57,6 +57,14 @@ CREATE TABLE board (
   likeCnt INT DEFAULT 0,
   FOREIGN KEY (writer) REFERENCES user (username)
 );
+
+/* 게시판 좋아요 테이블 */
+CREATE TABLE board_like (
+  id INT NOT NULL,
+  username VARCHAR(256) NOT NULL,
+  FOREIGN KEY (id) REFERENCES board(id),
+  FOREIGN KEY (username) REFERENCES user(username)
+);
 ```
 
 ### To Do Lists

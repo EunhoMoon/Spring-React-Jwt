@@ -22,5 +22,9 @@
 	<update id="updatePass" parameterType="String">
 		UPDATE user SET password=#{newPass} WHERE username=#{username}
 	</update>
+	
+	<select id="getUserContents" parameterType="String" resultType="Board">
+		SELECT * FROM board WHERE writer=#{username} ORDER BY writeDate DESC LIMIT 0, 10
+	</select>
 
 </mapper>
