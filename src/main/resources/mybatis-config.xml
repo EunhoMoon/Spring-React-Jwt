@@ -5,6 +5,14 @@
 	<settings>
 		<setting name="callSettersOnNulls" value="true" />
 	</settings>
+
+	<typeAliases>
+		<typeAlias type="study.janek.springreactjwt.model.User"
+			alias="User" />
+		<typeAlias type="study.janek.springreactjwt.model.Board"
+			alias="Board" />
+	</typeAliases>
+
 	<mappers>
 		<mapper resource="mapper/UserMapper.xml" />
 		<mapper resource="mapper/BoardMapper.xml" />

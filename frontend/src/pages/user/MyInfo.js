@@ -13,8 +13,6 @@ import { Container } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { Box, Button, Grid, Typography } from "@mui/material";
-import PersonOutlineOutlinedIcon from "@mui/icons-material/PersonOutlineOutlined";
-import { blue } from "@mui/material/colors";
 
 export default function MyInfo() {
   const [user, setUser] = React.useState({

@@ -13,4 +13,8 @@ public interface BoardMapper {
 	
 	public int getListSize();
 	
+	public Board getBoardItem(int boardId);
+	
+	public int insertBoard(Board board);
+	
 }

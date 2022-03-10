@@ -16,7 +16,8 @@ code {
 .linkText :link,
 .linkText :active,
 .linkText :visited,
-.linkText :hover {
+.linkText :hover,
+.linkText :focus {
   color: white;
   text-decoration: none;
 }
@@ -34,4 +35,8 @@ code {
   color: black;
   font-size: 1.1em;
   font-weight: bold;
+}
+
+.ck.ck-editor__editable:not(.ck-editor__nested-editable) {
+  min-height: 300px;
 }

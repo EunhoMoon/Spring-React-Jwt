@@ -9,30 +9,35 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import { Container } from "react-bootstrap";
-import { Avatar, Pagination, Stack, Typography } from "@mui/material";
+import {
+  Avatar,
+  Button,
+  Grid,
+  Pagination,
+  Stack,
+  TextField,
+  Typography,
+} from "@mui/material";
 import { grey } from "@mui/material/colors";
 import ChatBubbleOutlineIcon from "@mui/icons-material/ChatBubbleOutline";
 import { Box } from "@mui/system";
+import SearchIcon from "@mui/icons-material/Search";
 
 export default function BoardList() {
   const pNum = useParams().pNum;
   const navigate = useNavigate();
-  const [totalPage, setTotalPage] = React.useState(); // 총 페이지 수
-  const [rows, setRows] = React.useState([
-    { id: "", num: "", title: "", writer: "", writeDate: "", likeCnt: "" },
-  ]);
-  console.log(pNum);
+  const [totalPage, setTotalPage] = React.useState();
+  const [rows, setRows] = React.useState([]);
+  const token = sessionStorage.getItem("Authorization");
+
   React.useEffect(() => {
     axios.get("/api/getBoardList/" + pNum).then((res) => {
       setRows(res.data.list);
-      const num = res.data.pageSize;
-      const size = num % 10 > 0 ? num / 10 + 1 : num / 10;
-      console.log(size);
-      setTotalPage(size);
+      setTotalPage(res.data.pageSize);
     });
   }, [pNum]);
-  const [page, setPage] = React.useState(pNum);
-  const handleChange = (event, value) => {
+
+  const handlePageChange = (event, value) => {
     navigate("/board/list/" + value);
   };
 
@@ -47,7 +52,7 @@ export default function BoardList() {
           alignItems: "center",
         }}
       >
-        <Avatar sx={{ m: 1, bgcolor: grey[500] }}>
+        <Avatar sx={{ m: 1, bgcolor: grey }}>
           <ChatBubbleOutlineIcon />
         </Avatar>
         <Typography component="h1" variant="h5">
@@ -98,8 +103,57 @@ export default function BoardList() {
             </TableBody>
           </Table>
         </TableContainer>
+        <Grid container spacing={1}>
+          <Grid item xs={12} sm={4}></Grid>
+          <Grid item xs={12} sm={4}>
+            <div style={{ marginTop: 15 }}>
+              <TextField
+                id="outlined-basic"
+                label="검색어"
+                variant="outlined"
+                size="small"
+              />
+            </div>
+          </Grid>
+          <Grid item xs={12} sm={2}>
+            <Button
+              type="button"
+              variant="contained"
+              sx={{
+                background: "#2E3B55",
+                mt: 2,
+                width: "100%",
+              }}
+              startIcon={<SearchIcon />}
+            >
+              검색
+            </Button>
+          </Grid>
+          <Grid item xs={12} sm={2}>
+            <Button
+              type="button"
+              variant="contained"
+              sx={{
+                mt: 2,
+                background: "#2E3B55",
+                width: "100%",
+              }}
+              onClick={() =>
+                token === null || token === ""
+                  ? alert("회원만 글을 쓸 수 있습니다.\n가입 후 이용해주세요.")
+                  : navigate("/board/write")
+              }
+            >
+              글쓰기
+            </Button>
+          </Grid>
+        </Grid>
         <Stack spacing={2} sx={{ marginTop: 3 }}>
-          <Pagination count={totalPage} page={page} onChange={handleChange} />
+          <Pagination
+            count={totalPage}
+            page={parseInt(pNum)}
+            onChange={handlePageChange}
+          />
         </Stack>
       </Box>
     </Container>

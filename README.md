@@ -25,6 +25,7 @@ plugins
 - yarn add @mui/icons-material
 - yarn add @mui/lab
 - npm i @date-io/date-fns@1.x date-fns
+- npm install --save @ckeditor/ckeditor5-react @ckeditor/ckeditor5-build-classic
 
 ```txt
 import 'bootstrap/dist/css/bootstrap.min.css';
