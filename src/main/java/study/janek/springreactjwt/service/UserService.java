@@ -61,6 +61,8 @@ public class UserService {
 		user.setJoinDate(user.getJoinDate().substring(0, 10));
 		List<Board> userContents = userMapper.getUserContents(username);
 		for (Board board : userContents) {
+			String title = board.getTitle();
+			board.setTitle(title.length() > 10 ? title.substring(0, 10) + "..." : title);
 			board.setWriteDate(board.getWriteDate().substring(0, 10));
 		}
 		

@@ -78,7 +78,7 @@ const BoardDetail = () => {
 
   return (
     <div>
-      {board !== {} ? (
+      {board.id !== undefined ? (
         <Card sx={{ maxWidth: 500 }} style={{ margin: "30px auto" }}>
           <CardHeader
             avatar={
