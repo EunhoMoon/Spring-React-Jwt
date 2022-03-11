@@ -8,6 +8,8 @@
 - MySQL/MariaDB
 - Security
 - jwt
+- logback
+- log4jdbc
 
 plugins
 
