@@ -28,9 +28,9 @@ public class BoardService {
 		this.boardMapper = boardMapper;
 	}
 
-	public PageNation getBoardList(int pNum, String search, String keyword) {
+	public PageNation getBoardList(int pNum, String search, String keyword, boolean isOnly) {
 		int sNum = (pNum - 1) * 10;
-		SearchDto searchDto = new SearchDto(sNum, search, keyword);
+		SearchDto searchDto = new SearchDto(sNum, search, keyword, isOnly);
 		System.out.println(searchDto);
 		int listSize = boardMapper.getListSize(searchDto);
 		List<Board> boardList = boardMapper.getBoardList(searchDto);

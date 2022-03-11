@@ -46,6 +46,7 @@ export default function BoardList() {
   const [query, setQuery] = React.useState({
     search: state === null ? "" : state.search,
     keyword: state === null ? "" : state.keyword,
+    isOnly: state === null ? "n" : state.isOnly,
   });
 
   React.useEffect(() => {
@@ -57,7 +58,9 @@ export default function BoardList() {
           "?search=" +
           query.search +
           "&keyword=" +
-          query.keyword
+          query.keyword +
+          "&isOnly=" +
+          query.isOnly
       )
       .then((res) => {
         setRows(res.data.list);
@@ -114,37 +117,50 @@ export default function BoardList() {
               </TableRow>
             </TableHead>
 
-            <TableBody>
-              {rows.map((row) => (
-                <TableRow
-                  key={row.id}
-                  sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-                >
-                  <TableCell
-                    component="th"
-                    scope="row"
-                    align="center"
-                    width={"10%"}
+            {rows.length > 0 ? (
+              <TableBody>
+                {rows.map((row) => (
+                  <TableRow
+                    key={row.id}
+                    sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                   >
-                    {row.num}
-                  </TableCell>
-                  <TableCell align="center" width={"40%"}>
-                    <Link className="titleLink" to={"/board/detail/" + row.id}>
-                      {row.title}
-                    </Link>
-                  </TableCell>
-                  <TableCell align="center" width={"15%"}>
-                    {row.writer}
-                  </TableCell>
-                  <TableCell align="center" width={"15%"}>
-                    {row.likeCnt}
-                  </TableCell>
-                  <TableCell align="center" width={"20%"}>
-                    {row.writeDate}
+                    <TableCell
+                      component="th"
+                      scope="row"
+                      align="center"
+                      width={"10%"}
+                    >
+                      {row.num}
+                    </TableCell>
+                    <TableCell align="center" width={"40%"}>
+                      <Link
+                        className="titleLink"
+                        to={"/board/detail/" + row.id}
+                      >
+                        {row.title}
+                      </Link>
+                    </TableCell>
+                    <TableCell align="center" width={"15%"}>
+                      {row.writer}
+                    </TableCell>
+                    <TableCell align="center" width={"15%"}>
+                      {row.likeCnt}
+                    </TableCell>
+                    <TableCell align="center" width={"20%"}>
+                      {row.writeDate}
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            ) : (
+              <TableBody>
+                <TableRow>
+                  <TableCell align="center" colSpan={5}>
+                    검색 결과가 없습니다.
                   </TableCell>
                 </TableRow>
-              ))}
-            </TableBody>
+              </TableBody>
+            )}
           </Table>
         </TableContainer>
         <Grid container spacing={1}>

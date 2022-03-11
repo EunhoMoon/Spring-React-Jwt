@@ -4,6 +4,7 @@ public class SearchDto {
 	private int sNum;
 	private String search;
 	private String keyword;
+	private boolean isOnly;
 
 	public int getsNum() {
 		return sNum;
@@ -29,11 +30,20 @@ public class SearchDto {
 		this.keyword = keyword;
 	}
 
-	public SearchDto(int sNum, String search, String keyword) {
+	public boolean isOnly() {
+		return isOnly;
+	}
+
+	public void setOnly(boolean isOnly) {
+		this.isOnly = isOnly;
+	}
+
+	public SearchDto(int sNum, String search, String keyword, boolean isOnly) {
 		super();
 		this.sNum = sNum;
 		this.search = search;
 		this.keyword = keyword;
+		this.isOnly = isOnly;
 	}
 
 	@Override

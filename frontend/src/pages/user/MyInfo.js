@@ -169,6 +169,7 @@ export default function MyInfo() {
                   state: {
                     search: "writer",
                     keyword: user.username,
+                    isOnly: "y",
                   },
                 })
               }

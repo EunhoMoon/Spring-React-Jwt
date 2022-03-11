@@ -3,10 +3,19 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="study.janek.springreactjwt.mapper.BoardMapper">
 
-	<select id="getBoardList" parameterType="Search" resultType="Board">
+	<select id="getBoardList" parameterType="Search"
+		resultType="Board">
 		SELECT * FROM board
 		<if test="keyword != ''">
-			WHERE ${search} LIKE '%${keyword}%' or '${keyword}%' or '%${keyword}' or '${keyword}'
+			<choose>
+				<when test="!isOnly">
+					WHERE ${search} LIKE '%${keyword}%' or '${keyword}%' or '%${keyword}' or
+					'${keyword}'
+				</when>
+				<otherwise>
+					WHERE ${search} LIKE '${keyword}'
+				</otherwise>
+			</choose>
 		</if>
 		ORDER BY writeDate DESC LIMIT #{sNum}, 10
 	</select>
@@ -14,7 +23,15 @@
 	<select id="getListSize" resultType="int">
 		SELECT COUNT(*) FROM board
 		<if test='!keyword.equals("")'>
-			WHERE ${search} LIKE '%${keyword}%' or '${keyword}%' or '%${keyword}' or '${keyword}'
+			<choose>
+				<when test="!isOnly">
+					WHERE ${search} LIKE '%${keyword}%' or '${keyword}%' or '%${keyword}' or
+					'${keyword}'
+				</when>
+				<otherwise>
+					WHERE ${search} LIKE '${keyword}'
+				</otherwise>
+			</choose>
 		</if>
 	</select>
 

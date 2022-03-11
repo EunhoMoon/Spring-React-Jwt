@@ -25,12 +25,13 @@ public class BoardApiController {
 	public BoardService boardService;
 	
 	@GetMapping("/api/getBoardList/{pNum}")
-	public PageNation getBoardList(@PathVariable int pNum, @RequestParam String search, @RequestParam String keyword) {
+	public PageNation getBoardList(@PathVariable int pNum, @RequestParam String search, @RequestParam String keyword, @RequestParam String isOnly) {
 		if (keyword == "") {
 			search = "";
 			keyword = "";
 		}
-		return boardService.getBoardList(pNum, search, keyword);
+		boolean isO = isOnly.equals("y") ? true : false;
+		return boardService.getBoardList(pNum, search, keyword, isO);
 	}
 	
 	@GetMapping("/api/getBoardItem/{boardId}")
