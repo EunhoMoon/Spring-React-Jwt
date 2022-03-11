@@ -31,7 +31,6 @@ public class BoardService {
 	public PageNation getBoardList(int pNum, String search, String keyword, boolean isOnly) {
 		int sNum = (pNum - 1) * 10;
 		SearchDto searchDto = new SearchDto(sNum, search, keyword, isOnly);
-		System.out.println(searchDto);
 		int listSize = boardMapper.getListSize(searchDto);
 		List<Board> boardList = boardMapper.getBoardList(searchDto);
 		int num = listSize - 10 * (pNum - 1);
@@ -44,14 +43,13 @@ public class BoardService {
 			boolean isTrue = date.equals(today) ? true : false;
 			board.setNew(isTrue);
 			String title = board.getTitle();
-			board.setTitle(title.length() > 17 ? title.substring(0, 17) + "..." : title);
+			board.setTitle(title.length() > 15 ? title.substring(0, 15) + "..." : title);
 			num--;
 		}
 
 		listSize = listSize % 10 >= 1 ? listSize / 10 + 1 : listSize / 10;
 
 		PageNation result = new PageNation(listSize, boardList);
-		System.out.println(result);
 
 		return result;
 	}

@@ -12,6 +12,7 @@ import Calendar from "./pages/service/Calendar";
 import BoardList from "./pages/board/BoardList";
 import BoardDetail from "./pages/board/BoardDetail";
 import BoardWrite from "./pages/board/BoardWrite";
+import Loading from "./pages/error/Loading";
 
 function App() {
   const [isLogin, setIsLogin] = useState(false);
@@ -38,6 +39,7 @@ function App() {
           <Route path="/board/write/" element={<BoardWrite />} />
           <Route path="/board/detail/:boardId" element={<BoardDetail />} />
           <Route path="/calendar" element={<Calendar />} />
+          <Route path="/loading" element={<Loading />} />
           <Route path="/*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>

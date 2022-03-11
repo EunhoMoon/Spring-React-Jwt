@@ -26,13 +26,14 @@ import { grey } from "@mui/material/colors";
 import ChatBubbleOutlineIcon from "@mui/icons-material/ChatBubbleOutline";
 import { Box } from "@mui/system";
 import SearchIcon from "@mui/icons-material/Search";
+import Loading from "../error/Loading";
+import FiberNewOutlinedIcon from "@mui/icons-material/FiberNewOutlined";
 
 export default function BoardList() {
   const pNum = useParams().pNum;
   const navigate = useNavigate();
   const location = useLocation();
   const state = location.state;
-  console.log(state);
   const [totalPage, setTotalPage] = React.useState();
   const [rows, setRows] = React.useState([]);
   const token = sessionStorage.getItem("Authorization");
@@ -50,7 +51,6 @@ export default function BoardList() {
   });
 
   React.useEffect(() => {
-    console.log(query);
     axios
       .get(
         "/api/getBoardList/" +
@@ -89,156 +89,170 @@ export default function BoardList() {
 
   return (
     <Container>
-      <Box
-        sx={{
-          marginTop: 4,
-          marginBottom: 4,
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-        }}
-      >
-        <Avatar sx={{ m: 1, bgcolor: grey }}>
-          <ChatBubbleOutlineIcon />
-        </Avatar>
-        <Typography component="h1" variant="h5">
-          게시판
-        </Typography>
+      {rows.length > 0 ? (
+        <Box
+          sx={{
+            marginTop: 4,
+            marginBottom: 4,
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+          }}
+        >
+          <Avatar sx={{ m: 1, bgcolor: grey }}>
+            <ChatBubbleOutlineIcon />
+          </Avatar>
+          <Typography component="h1" variant="h5">
+            게시판
+          </Typography>
 
-        <TableContainer component={Paper} sx={{ marginTop: 3 }}>
-          <Table sx={{ minWidth: 650 }} aria-label="simple table">
-            <TableHead>
-              <TableRow>
-                <TableCell align="center">번호</TableCell>
-                <TableCell align="center">제목</TableCell>
-                <TableCell align="center">작성자</TableCell>
-                <TableCell align="center">추천수</TableCell>
-                <TableCell align="center">작성일</TableCell>
-              </TableRow>
-            </TableHead>
+          <TableContainer component={Paper} sx={{ marginTop: 3 }}>
+            <Table sx={{ minWidth: 650 }} aria-label="simple table">
+              <TableHead>
+                <TableRow>
+                  <TableCell align="center">번호</TableCell>
+                  <TableCell align="center">제목</TableCell>
+                  <TableCell align="center">작성자</TableCell>
+                  <TableCell align="center">추천수</TableCell>
+                  <TableCell align="center">작성일</TableCell>
+                </TableRow>
+              </TableHead>
 
-            {rows.length > 0 ? (
-              <TableBody>
-                {rows.map((row) => (
-                  <TableRow
-                    key={row.id}
-                    sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-                  >
-                    <TableCell
-                      component="th"
-                      scope="row"
-                      align="center"
-                      width={"10%"}
+              {rows.length > 0 ? (
+                <TableBody>
+                  {rows.map((row) => (
+                    <TableRow
+                      key={row.id}
+                      sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                     >
-                      {row.num}
-                    </TableCell>
-                    <TableCell align="center" width={"40%"}>
-                      <Link
-                        className="titleLink"
-                        to={"/board/detail/" + row.id}
+                      <TableCell
+                        component="th"
+                        scope="row"
+                        align="center"
+                        width={"10%"}
                       >
-                        {row.title}
-                      </Link>
-                    </TableCell>
-                    <TableCell align="center" width={"15%"}>
-                      {row.writer}
-                    </TableCell>
-                    <TableCell align="center" width={"15%"}>
-                      {row.likeCnt}
-                    </TableCell>
-                    <TableCell align="center" width={"20%"}>
-                      {row.writeDate}
+                        {row.num}
+                      </TableCell>
+                      <TableCell align="center" width={"40%"}>
+                        {row.new ? (
+                          <FiberNewOutlinedIcon
+                            fontSize="small"
+                            color="warning"
+                            sx={{ margin: 0 }}
+                          />
+                        ) : null}
+                        &nbsp;
+                        <Link
+                          className="titleLink"
+                          to={"/board/detail/" + row.id}
+                        >
+                          {row.title}
+                        </Link>
+                      </TableCell>
+                      <TableCell align="center" width={"15%"}>
+                        {row.writer}
+                      </TableCell>
+                      <TableCell align="center" width={"15%"}>
+                        {row.likeCnt}
+                      </TableCell>
+                      <TableCell align="center" width={"20%"}>
+                        {row.writeDate}
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              ) : (
+                <TableBody>
+                  <TableRow>
+                    <TableCell align="center" colSpan={5}>
+                      검색 결과가 없습니다.
                     </TableCell>
                   </TableRow>
-                ))}
-              </TableBody>
-            ) : (
-              <TableBody>
-                <TableRow>
-                  <TableCell align="center" colSpan={5}>
-                    검색 결과가 없습니다.
-                  </TableCell>
-                </TableRow>
-              </TableBody>
-            )}
-          </Table>
-        </TableContainer>
-        <Grid container spacing={1}>
-          <Grid item xs={12} sm={2}></Grid>
-          <Grid item xs={12} sm={2}>
-            <div style={{ marginTop: 15 }}>
-              <FormControl fullWidth>
-                <InputLabel id="label">검색조건</InputLabel>
-                <Select
-                  labelId="label"
-                  id="demo-simple-select-standard"
-                  value={search}
-                  onChange={handleSearchChange}
+                </TableBody>
+              )}
+            </Table>
+          </TableContainer>
+          <Grid container spacing={1}>
+            <Grid item xs={12} sm={2}></Grid>
+            <Grid item xs={12} sm={2}>
+              <div style={{ marginTop: 15 }}>
+                <FormControl fullWidth>
+                  <InputLabel id="label">검색조건</InputLabel>
+                  <Select
+                    labelId="label"
+                    id="demo-simple-select-standard"
+                    value={search}
+                    onChange={handleSearchChange}
+                    size="small"
+                    label="검색조건"
+                  >
+                    {searchs.map((search) => (
+                      <MenuItem key={"@" + search.key} value={search.key}>
+                        {search.value}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                </FormControl>
+              </div>
+            </Grid>
+            <Grid item xs={12} sm={4}>
+              <div style={{ marginTop: 15 }}>
+                <TextField
+                  id="outlined-basic"
+                  label="검색어"
+                  variant="outlined"
                   size="small"
-                  label="검색조건"
-                >
-                  {searchs.map((search) => (
-                    <MenuItem key={"@" + search.key} value={search.key}>
-                      {search.value}
-                    </MenuItem>
-                  ))}
-                </Select>
-              </FormControl>
-            </div>
+                  onChange={handleKeywordChange}
+                />
+              </div>
+            </Grid>
+            <Grid item xs={12} sm={2}>
+              <Button
+                type="button"
+                variant="contained"
+                sx={{
+                  background: "#2E3B55",
+                  mt: 2,
+                  width: "100%",
+                }}
+                startIcon={<SearchIcon />}
+                onClick={handleBoardSearch}
+              >
+                검색
+              </Button>
+            </Grid>
+            <Grid item xs={12} sm={2}>
+              <Button
+                type="button"
+                variant="contained"
+                sx={{
+                  mt: 2,
+                  background: "#2E3B55",
+                  width: "100%",
+                }}
+                onClick={() =>
+                  token === null || token === ""
+                    ? alert(
+                        "회원만 글을 쓸 수 있습니다.\n가입 후 이용해주세요."
+                      )
+                    : navigate("/board/write")
+                }
+              >
+                글쓰기
+              </Button>
+            </Grid>
           </Grid>
-          <Grid item xs={12} sm={4}>
-            <div style={{ marginTop: 15 }}>
-              <TextField
-                id="outlined-basic"
-                label="검색어"
-                variant="outlined"
-                size="small"
-                onChange={handleKeywordChange}
-              />
-            </div>
-          </Grid>
-          <Grid item xs={12} sm={2}>
-            <Button
-              type="button"
-              variant="contained"
-              sx={{
-                background: "#2E3B55",
-                mt: 2,
-                width: "100%",
-              }}
-              startIcon={<SearchIcon />}
-              onClick={handleBoardSearch}
-            >
-              검색
-            </Button>
-          </Grid>
-          <Grid item xs={12} sm={2}>
-            <Button
-              type="button"
-              variant="contained"
-              sx={{
-                mt: 2,
-                background: "#2E3B55",
-                width: "100%",
-              }}
-              onClick={() =>
-                token === null || token === ""
-                  ? alert("회원만 글을 쓸 수 있습니다.\n가입 후 이용해주세요.")
-                  : navigate("/board/write")
-              }
-            >
-              글쓰기
-            </Button>
-          </Grid>
-        </Grid>
-        <Stack spacing={2} sx={{ marginTop: 3 }}>
-          <Pagination
-            count={totalPage}
-            page={parseInt(pNum)}
-            onChange={handlePageChange}
-          />
-        </Stack>
-      </Box>
+          <Stack spacing={2} sx={{ marginTop: 3 }}>
+            <Pagination
+              count={totalPage}
+              page={parseInt(pNum)}
+              onChange={handlePageChange}
+            />
+          </Stack>
+        </Box>
+      ) : (
+        <Loading />
+      )}
     </Container>
   );
 }

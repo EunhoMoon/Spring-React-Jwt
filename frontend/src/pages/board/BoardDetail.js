@@ -11,6 +11,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import ReplyIcon from "@mui/icons-material/Reply";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
+import Loading from "../error/Loading";
 
 const BoardDetail = () => {
   const boardId = useParams().boardId;
@@ -19,7 +20,6 @@ const BoardDetail = () => {
   const token = sessionStorage.getItem("Authorization");
   const [isLike, setIsLike] = useState(false);
   const [isWriter, setIsWriter] = useState(false);
-
   token !== null && token !== ""
     ? (axios.defaults.headers.common["Authorization"] = token)
     : (axios.defaults.headers.common["Authorization"] = "");
@@ -77,41 +77,47 @@ const BoardDetail = () => {
   };
 
   return (
-    <Card sx={{ maxWidth: 500 }} style={{ margin: "30px auto" }}>
-      <CardHeader
-        avatar={
-          <Avatar sx={{ bgcolor: grey[500] }} aria-label="recipe">
-            <ReplyIcon
-              sx={{ cursor: "pointer" }}
-              onClick={() => navigate(-1)}
-            />
-          </Avatar>
-        }
-        action={
-          <div style={{ marginRight: 10 }}>
-            {isWriter ? (
-              <IconButton aria-label="delete" onClick={deleteBoard}>
-                <DeleteForeverIcon />
-              </IconButton>
-            ) : null}
-            &nbsp;
-            <span style={{ marginTop: 3 }}>{board.likeCnt}</span>
-            <IconButton aria-label="add to favorites" onClick={setLike}>
-              <FavoriteIcon color={isLike ? "error" : ""} />
-            </IconButton>
-          </div>
-        }
-        title={board.title}
-        subheader={board.writer + "  " + board.writeDate}
-      />
-      <CardContent>
-        <Typography
-          variant="body2"
-          color="text.secondary"
-          dangerouslySetInnerHTML={{ __html: board.content }}
-        ></Typography>
-      </CardContent>
-    </Card>
+    <div>
+      {board !== {} ? (
+        <Card sx={{ maxWidth: 500 }} style={{ margin: "30px auto" }}>
+          <CardHeader
+            avatar={
+              <Avatar sx={{ bgcolor: grey[500] }} aria-label="recipe">
+                <ReplyIcon
+                  sx={{ cursor: "pointer" }}
+                  onClick={() => navigate(-1)}
+                />
+              </Avatar>
+            }
+            action={
+              <div style={{ marginRight: 10 }}>
+                {isWriter ? (
+                  <IconButton aria-label="delete" onClick={deleteBoard}>
+                    <DeleteForeverIcon />
+                  </IconButton>
+                ) : null}
+                &nbsp;
+                <span style={{ marginTop: 3 }}>{board.likeCnt}</span>
+                <IconButton aria-label="add to favorites" onClick={setLike}>
+                  <FavoriteIcon color={isLike ? "error" : ""} />
+                </IconButton>
+              </div>
+            }
+            title={board.title}
+            subheader={board.writer + "  " + board.writeDate}
+          />
+          <CardContent>
+            <Typography
+              variant="body2"
+              color="text.secondary"
+              dangerouslySetInnerHTML={{ __html: board.content }}
+            ></Typography>
+          </CardContent>
+        </Card>
+      ) : (
+        <Loading />
+      )}
+    </div>
   );
 };
 
