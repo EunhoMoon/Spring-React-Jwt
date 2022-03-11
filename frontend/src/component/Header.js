@@ -38,7 +38,6 @@ const Header = ({ isLogin }) => {
 
   const moveUserPage = (event) => {
     let value = event.target.outerText;
-    console.log(value);
     if (value === "Login") {
       navigate("/login");
     } else if (value === "Logout") {

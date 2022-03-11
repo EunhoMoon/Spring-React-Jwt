@@ -14,6 +14,7 @@ import study.janek.springreactjwt.mapper.BoardMapper;
 import study.janek.springreactjwt.model.Board;
 import study.janek.springreactjwt.model.BoardLike;
 import study.janek.springreactjwt.model.PageNation;
+import study.janek.springreactjwt.model.User;
 
 @Service
 public class BoardService {
@@ -45,25 +46,85 @@ public class BoardService {
 		return result;
 	}
 
-	public BoardInfoDto getBoardItem(int boardId) {
+	public BoardInfoDto getBoardItem(String jwtToken, int boardId) {
+	// 나중에 한 번 다시 보기
 		BoardInfoDto boardInfoDto = new BoardInfoDto();
 		Board board = boardMapper.getBoardItem(boardId);
+		Boolean isTrue = false;
 		List<BoardLike> boardLikes = boardMapper.getBoardLike(boardId);
 		board.setWriteDate(board.getWriteDate().substring(0, 10) + " " + board.getWriteDate().substring(11, 16));
 
+		if (jwtToken != null && jwtToken != "") {
+			jwtToken = jwtToken.replace(JwtProperties.TOKEN_PREFIX, "");
+			String username = JWT.require(Algorithm.HMAC512(JwtProperties.SECRET)).build().verify(jwtToken)
+					.getClaim("username").asString();
+			isTrue = board.getWriter().equals(username) ? true : false;
+			boardInfoDto.setIsWriter(isTrue);
+
+			if (boardLikes != null) {
+				int count = 0;
+				for (BoardLike boardLike : boardLikes) {
+					count = boardLike.getUsername().equals(username) ? count+1 : count;
+				}
+				isTrue = count > 0 ? true : false;
+				boardInfoDto.setIsLike(isTrue);
+			} else {
+				boardInfoDto.setIsLike(false);
+			}
+		} else {
+			boardInfoDto.setIsLike(false);
+			boardInfoDto.setIsWriter(false);
+		}
+
 		boardInfoDto.setBoard(board);
-		boardInfoDto.setBoardLike(boardLikes);
-		
+
+		System.out.println(boardInfoDto);
+
 		return boardInfoDto;
 	}
-	
+
 	public int insertBoard(String jwtToken, Board board) {
 		jwtToken = jwtToken.replace(JwtProperties.TOKEN_PREFIX, "");
-		String writer = 
-				JWT.require(Algorithm.HMAC512(JwtProperties.SECRET)).build().verify(jwtToken).getClaim("username").asString();
+		String writer = JWT.require(Algorithm.HMAC512(JwtProperties.SECRET)).build().verify(jwtToken)
+				.getClaim("username").asString();
 		board.setWriter(writer);
-		
+
 		return boardMapper.insertBoard(board);
 	}
+	
+	public int insertLike(String jwtToken, Long boardId) {
+		BoardLike boardLike = new BoardLike();
+		jwtToken = jwtToken.replace(JwtProperties.TOKEN_PREFIX, "");
+		String username = JWT.require(Algorithm.HMAC512(JwtProperties.SECRET)).build().verify(jwtToken)
+				.getClaim("username").asString();
+		boardLike.setId(boardId);
+		boardLike.setUsername(username);
+		
+		return boardMapper.insertLike(boardLike);
+	}
+	
+	public int deleteLike(String jwtToken, Long boardId) {
+		BoardLike boardLike = new BoardLike();
+		jwtToken = jwtToken.replace(JwtProperties.TOKEN_PREFIX, "");
+		String username = JWT.require(Algorithm.HMAC512(JwtProperties.SECRET)).build().verify(jwtToken)
+				.getClaim("username").asString();
+		boardLike.setId(boardId);
+		boardLike.setUsername(username);
+		
+		return boardMapper.deleteLike(boardLike);
+	}
 
+	public void deleteBoard(String jwtToken, Long boardId) {
+		Board board = new Board();
+		jwtToken = jwtToken.replace(JwtProperties.TOKEN_PREFIX, "");
+		String username = JWT.require(Algorithm.HMAC512(JwtProperties.SECRET)).build().verify(jwtToken)
+				.getClaim("username").asString();
+		board.setId(boardId);
+		board.setWriter(username);
+		System.out.println("====================");
+		System.out.println("id : " + boardId + " / name : " + username);
+		System.out.println("====================");
+		boardMapper.deleteBoard(board);
+	}
+	
 }

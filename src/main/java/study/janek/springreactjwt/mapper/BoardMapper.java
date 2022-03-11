@@ -20,4 +20,9 @@ public interface BoardMapper {
 	
 	public int insertBoard(Board board);
 	
+	public int insertLike(BoardLike boardLike);
+
+	public int deleteLike(BoardLike boardLike);
+	
+	public Board deleteBoard(Board board);
 }

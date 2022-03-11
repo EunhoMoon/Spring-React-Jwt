@@ -22,5 +22,17 @@
 	<insert id="insertBoard" parameterType="Board">
 		INSERT INTO board (writer, title, content) VALUES (#{writer}, #{title}, #{content})
 	</insert>
+	
+	<insert id="insertLike" parameterType="BoardLike">
+		INSERT INTO boardLike (id, username) VALUES (#{id}, #{username})
+	</insert>
+	
+	<delete id="deleteLike" parameterType="BoardLike">
+		DELETE FROM boardLike WHERE id=#{id} AND username=#{username}
+	</delete>
+
+	<select id="deleteBoard" parameterType="Board">
+		CALL delete_board(#{id}, #{writer});
+	</select>
 
 </mapper>

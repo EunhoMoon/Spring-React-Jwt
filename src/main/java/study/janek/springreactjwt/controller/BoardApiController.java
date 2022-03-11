@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -28,8 +29,8 @@ public class BoardApiController {
 	}
 	
 	@GetMapping("/api/getBoardItem/{boardId}")
-	public BoardInfoDto getBoardItem(@PathVariable int boardId) {
-		return boardService.getBoardItem(boardId);
+	public BoardInfoDto getBoardItem(@RequestHeader("Authorization") String jwtToken, @PathVariable int boardId) {
+		return boardService.getBoardItem(jwtToken, boardId);
 	}
 	
 	@PostMapping("/api/board/insertBoard")
@@ -40,4 +41,19 @@ public class BoardApiController {
 		return new ResponseEntity<>(boardService.insertBoard(jwtToken, board), HttpStatus.CREATED);
 	}
 	
+	@PostMapping("/api/setLike/{boardId}")
+	public ResponseEntity<?> insertLike(@RequestHeader("Authorization") String jwtToken, @PathVariable Long boardId) {
+		return new ResponseEntity<>(boardService.insertLike(jwtToken, boardId), HttpStatus.OK);
+	}
+	
+	@DeleteMapping("/api/setLike/{boardId}")
+	public ResponseEntity<?> deleteLike(@RequestHeader("Authorization") String jwtToken, @PathVariable Long boardId) {
+		return new ResponseEntity<>(boardService.deleteLike(jwtToken, boardId), HttpStatus.OK);
+	}
+	
+	@PostMapping("/api/deleteBoard/{boardId}")
+	public ResponseEntity<?> deleteBoard(@RequestHeader("Authorization") String jwtToken, @PathVariable Long boardId) {
+		boardService.deleteBoard(jwtToken, boardId);
+		return new ResponseEntity<>(HttpStatus.OK);
+	}
 }
