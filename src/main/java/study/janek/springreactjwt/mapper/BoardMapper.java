@@ -4,15 +4,16 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
 
+import study.janek.springreactjwt.dto.SearchDto;
 import study.janek.springreactjwt.model.Board;
 import study.janek.springreactjwt.model.BoardLike;
 
 @Mapper
 public interface BoardMapper {
 
-	public List<Board> getBoardList(int sNum);
+	public List<Board> getBoardList(SearchDto searchDto);
 	
-	public int getListSize();
+	public int getListSize(SearchDto searchDto);
 	
 	public Board getBoardItem(int boardId);
 	

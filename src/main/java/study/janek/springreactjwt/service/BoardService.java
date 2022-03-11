@@ -1,5 +1,7 @@
 package study.janek.springreactjwt.service;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,11 +12,11 @@ import com.auth0.jwt.algorithms.Algorithm;
 
 import study.janek.springreactjwt.config.auth.jwt.JwtProperties;
 import study.janek.springreactjwt.dto.BoardInfoDto;
+import study.janek.springreactjwt.dto.SearchDto;
 import study.janek.springreactjwt.mapper.BoardMapper;
 import study.janek.springreactjwt.model.Board;
 import study.janek.springreactjwt.model.BoardLike;
 import study.janek.springreactjwt.model.PageNation;
-import study.janek.springreactjwt.model.User;
 
 @Service
 public class BoardService {
@@ -26,28 +28,36 @@ public class BoardService {
 		this.boardMapper = boardMapper;
 	}
 
-	public PageNation getBoardList(int pNum) {
+	public PageNation getBoardList(int pNum, String search, String keyword) {
 		int sNum = (pNum - 1) * 10;
-		int listSize = boardMapper.getListSize();
-		List<Board> boardList = boardMapper.getBoardList(sNum);
+		SearchDto searchDto = new SearchDto(sNum, search, keyword);
+		System.out.println(searchDto);
+		int listSize = boardMapper.getListSize(searchDto);
+		List<Board> boardList = boardMapper.getBoardList(searchDto);
 		int num = listSize - 10 * (pNum - 1);
+		String today = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
 
 		for (Board board : boardList) {
 			board.setNum(num);
-			String date = board.getWriteDate();
-			board.setWriteDate(date.substring(0, 10));
+			String date = board.getWriteDate().substring(0, 10);
+			board.setWriteDate(date);
+			boolean isTrue = date.equals(today) ? true : false;
+			board.setNew(isTrue);
+			String title = board.getTitle();
+			board.setTitle(title.length() > 17 ? title.substring(0, 17) + "..." : title);
 			num--;
 		}
 
 		listSize = listSize % 10 >= 1 ? listSize / 10 + 1 : listSize / 10;
 
 		PageNation result = new PageNation(listSize, boardList);
+		System.out.println(result);
 
 		return result;
 	}
 
 	public BoardInfoDto getBoardItem(String jwtToken, int boardId) {
-	// 나중에 한 번 다시 보기
+		// 나중에 한 번 다시 보기
 		BoardInfoDto boardInfoDto = new BoardInfoDto();
 		Board board = boardMapper.getBoardItem(boardId);
 		Boolean isTrue = false;
@@ -64,7 +74,7 @@ public class BoardService {
 			if (boardLikes != null) {
 				int count = 0;
 				for (BoardLike boardLike : boardLikes) {
-					count = boardLike.getUsername().equals(username) ? count+1 : count;
+					count = boardLike.getUsername().equals(username) ? count + 1 : count;
 				}
 				isTrue = count > 0 ? true : false;
 				boardInfoDto.setIsLike(isTrue);
@@ -78,8 +88,6 @@ public class BoardService {
 
 		boardInfoDto.setBoard(board);
 
-		System.out.println(boardInfoDto);
-
 		return boardInfoDto;
 	}
 
@@ -91,7 +99,7 @@ public class BoardService {
 
 		return boardMapper.insertBoard(board);
 	}
-	
+
 	public int insertLike(String jwtToken, Long boardId) {
 		BoardLike boardLike = new BoardLike();
 		jwtToken = jwtToken.replace(JwtProperties.TOKEN_PREFIX, "");
@@ -99,10 +107,10 @@ public class BoardService {
 				.getClaim("username").asString();
 		boardLike.setId(boardId);
 		boardLike.setUsername(username);
-		
+
 		return boardMapper.insertLike(boardLike);
 	}
-	
+
 	public int deleteLike(String jwtToken, Long boardId) {
 		BoardLike boardLike = new BoardLike();
 		jwtToken = jwtToken.replace(JwtProperties.TOKEN_PREFIX, "");
@@ -110,7 +118,7 @@ public class BoardService {
 				.getClaim("username").asString();
 		boardLike.setId(boardId);
 		boardLike.setUsername(username);
-		
+
 		return boardMapper.deleteLike(boardLike);
 	}
 
@@ -121,10 +129,7 @@ public class BoardService {
 				.getClaim("username").asString();
 		board.setId(boardId);
 		board.setWriter(username);
-		System.out.println("====================");
-		System.out.println("id : " + boardId + " / name : " + username);
-		System.out.println("====================");
 		boardMapper.deleteBoard(board);
 	}
-	
+
 }

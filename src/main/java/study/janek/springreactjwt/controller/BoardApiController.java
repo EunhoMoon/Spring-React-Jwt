@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestHeader;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import study.janek.springreactjwt.dto.BoardInfoDto;
@@ -24,8 +25,12 @@ public class BoardApiController {
 	public BoardService boardService;
 	
 	@GetMapping("/api/getBoardList/{pNum}")
-	public PageNation getBoardList(@PathVariable int pNum) {
-		return boardService.getBoardList(pNum);
+	public PageNation getBoardList(@PathVariable int pNum, @RequestParam String search, @RequestParam String keyword) {
+		if (keyword == "") {
+			search = "";
+			keyword = "";
+		}
+		return boardService.getBoardList(pNum, search, keyword);
 	}
 	
 	@GetMapping("/api/getBoardItem/{boardId}")

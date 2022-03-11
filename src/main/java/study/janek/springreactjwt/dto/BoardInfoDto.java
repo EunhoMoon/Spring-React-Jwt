@@ -1,9 +1,6 @@
 package study.janek.springreactjwt.dto;
 
-import java.util.List;
-
 import study.janek.springreactjwt.model.Board;
-import study.janek.springreactjwt.model.BoardLike;
 
 public class BoardInfoDto {
 

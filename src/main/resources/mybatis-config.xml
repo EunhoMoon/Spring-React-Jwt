@@ -13,6 +13,8 @@
 			alias="Board" />
 		<typeAlias type="study.janek.springreactjwt.model.BoardLike"
 			alias="BoardLike" />
+		<typeAlias type="study.janek.springreactjwt.dto.SearchDto"
+			alias="Search" />
 	</typeAliases>
 
 	<mappers>

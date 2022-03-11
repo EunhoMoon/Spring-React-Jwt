@@ -1,6 +1,6 @@
 import * as React from "react";
 import axios from "axios";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
@@ -12,8 +12,12 @@ import { Container } from "react-bootstrap";
 import {
   Avatar,
   Button,
+  FormControl,
   Grid,
+  InputLabel,
+  MenuItem,
   Pagination,
+  Select,
   Stack,
   TextField,
   Typography,
@@ -26,19 +30,58 @@ import SearchIcon from "@mui/icons-material/Search";
 export default function BoardList() {
   const pNum = useParams().pNum;
   const navigate = useNavigate();
+  const location = useLocation();
+  const state = location.state;
+  console.log(state);
   const [totalPage, setTotalPage] = React.useState();
   const [rows, setRows] = React.useState([]);
   const token = sessionStorage.getItem("Authorization");
+  const searchs = [
+    { key: "writer", value: "작성자" },
+    { key: "title", value: "제목" },
+    { key: "content", value: "내용" },
+  ];
+  const [search, setSearch] = React.useState("title");
+  const [keyword, setKeyword] = React.useState("");
+  const [query, setQuery] = React.useState({
+    search: state === null ? "" : state.search,
+    keyword: state === null ? "" : state.keyword,
+  });
 
   React.useEffect(() => {
-    axios.get("/api/getBoardList/" + pNum).then((res) => {
-      setRows(res.data.list);
-      setTotalPage(res.data.pageSize);
+    console.log(query);
+    axios
+      .get(
+        "/api/getBoardList/" +
+          pNum +
+          "?search=" +
+          query.search +
+          "&keyword=" +
+          query.keyword
+      )
+      .then((res) => {
+        setRows(res.data.list);
+        setTotalPage(res.data.pageSize);
+      });
+  }, [pNum, query]);
+
+  const handleBoardSearch = () => {
+    setQuery({
+      search: search,
+      keyword: keyword,
     });
-  }, [pNum]);
+  };
 
   const handlePageChange = (event, value) => {
     navigate("/board/list/" + value);
+  };
+
+  const handleKeywordChange = (event) => {
+    setKeyword(event.target.value);
+  };
+
+  const handleSearchChange = (event) => {
+    setSearch(event.target.value);
   };
 
   return (
@@ -70,6 +113,7 @@ export default function BoardList() {
                 <TableCell align="center">작성일</TableCell>
               </TableRow>
             </TableHead>
+
             <TableBody>
               {rows.map((row) => (
                 <TableRow
@@ -84,12 +128,12 @@ export default function BoardList() {
                   >
                     {row.num}
                   </TableCell>
-                  <TableCell align="center" width={"35%"}>
+                  <TableCell align="center" width={"40%"}>
                     <Link className="titleLink" to={"/board/detail/" + row.id}>
                       {row.title}
                     </Link>
                   </TableCell>
-                  <TableCell align="center" width={"20%"}>
+                  <TableCell align="center" width={"15%"}>
                     {row.writer}
                   </TableCell>
                   <TableCell align="center" width={"15%"}>
@@ -104,7 +148,28 @@ export default function BoardList() {
           </Table>
         </TableContainer>
         <Grid container spacing={1}>
-          <Grid item xs={12} sm={4}></Grid>
+          <Grid item xs={12} sm={2}></Grid>
+          <Grid item xs={12} sm={2}>
+            <div style={{ marginTop: 15 }}>
+              <FormControl fullWidth>
+                <InputLabel id="label">검색조건</InputLabel>
+                <Select
+                  labelId="label"
+                  id="demo-simple-select-standard"
+                  value={search}
+                  onChange={handleSearchChange}
+                  size="small"
+                  label="검색조건"
+                >
+                  {searchs.map((search) => (
+                    <MenuItem key={"@" + search.key} value={search.key}>
+                      {search.value}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
+            </div>
+          </Grid>
           <Grid item xs={12} sm={4}>
             <div style={{ marginTop: 15 }}>
               <TextField
@@ -112,6 +177,7 @@ export default function BoardList() {
                 label="검색어"
                 variant="outlined"
                 size="small"
+                onChange={handleKeywordChange}
               />
             </div>
           </Grid>
@@ -125,6 +191,7 @@ export default function BoardList() {
                 width: "100%",
               }}
               startIcon={<SearchIcon />}
+              onClick={handleBoardSearch}
             >
               검색
             </Button>

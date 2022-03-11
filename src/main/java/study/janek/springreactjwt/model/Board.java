@@ -10,6 +10,7 @@ public class Board {
 	private String writeDate;
 	private int readCnt;
 	private int likeCnt;
+	private boolean isNew;
 
 	public Long getId() {
 		return id;
@@ -73,6 +74,14 @@ public class Board {
 
 	public void setLikeCnt(int likeCnt) {
 		this.likeCnt = likeCnt;
+	}
+
+	public boolean isNew() {
+		return isNew;
+	}
+
+	public void setNew(boolean isNew) {
+		this.isNew = isNew;
 	}
 
 	@Override

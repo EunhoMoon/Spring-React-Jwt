@@ -146,7 +146,9 @@ export default function MyInfo() {
             {userContents.map((content) => (
               <ListItemButton
                 sx={{ pl: 4 }}
-                onClick={() => navigate("/board/detail/" + content.id)}
+                onClick={() =>
+                  navigate("/board/detail/" + parseInt(content.id))
+                }
                 key={"@" + content.id}
               >
                 <ListItemIcon></ListItemIcon>
@@ -160,7 +162,17 @@ export default function MyInfo() {
                 </Grid>
               </ListItemButton>
             ))}
-            <ListItemButton sx={{ pl: 4 }}>
+            <ListItemButton
+              sx={{ pl: 4 }}
+              onClick={() =>
+                navigate("/board/list/1", {
+                  state: {
+                    search: "writer",
+                    keyword: user.username,
+                  },
+                })
+              }
+            >
               <ListItemIcon></ListItemIcon>
               <Grid container>
                 <Grid item xs={12} sm={8}></Grid>

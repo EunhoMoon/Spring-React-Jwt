@@ -25,11 +25,17 @@ const BoardDetail = () => {
     : (axios.defaults.headers.common["Authorization"] = "");
 
   useEffect(() => {
-    axios.get("/api/getBoardItem/" + boardId).then((res) => {
-      setBoard(res.data.board);
-      setIsLike(res.data.isLike);
-      setIsWriter(res.data.isWriter);
-    });
+    axios
+      .get("/api/getBoardItem/" + boardId)
+      .then((res) => {
+        setBoard(res.data.board);
+        setIsLike(res.data.isLike);
+        setIsWriter(res.data.isWriter);
+      })
+      .catch((error) => {
+        sessionStorage.clear();
+        window.location.replace();
+      });
   }, [boardId, isLike]);
 
   const setLike = () => {
