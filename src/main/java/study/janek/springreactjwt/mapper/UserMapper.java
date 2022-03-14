@@ -22,4 +22,6 @@ public interface UserMapper {
 	
 	public List<Board> getUserContents(String username);
 	
+	public int updateUser(String username, String email);
+	
 }

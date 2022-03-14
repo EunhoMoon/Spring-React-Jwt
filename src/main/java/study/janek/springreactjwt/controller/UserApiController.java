@@ -49,6 +49,11 @@ public class UserApiController {
 		return userService.chkUserPass(jwtToken, oldPass);
 	}
 	
+	@PostMapping("/api/user/updateUser")
+	public int updateUser(@RequestHeader("Authorization") String jwtToken, String email, String password) {
+		return userService.updateUser(jwtToken, email, password);
+	}
+	
 	@PostMapping("/api/user/updatePass")
 	public ResponseEntity<?> updatePass(@RequestHeader("Authorization") String jwtToken, String newPass) {
 		return new ResponseEntity<>(userService.updatePass(jwtToken, newPass), HttpStatus.OK);

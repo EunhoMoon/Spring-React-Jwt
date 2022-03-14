@@ -65,7 +65,10 @@ export default function MyInfo() {
 
   const moveLocation = (e) => {
     const locationName = e.target.name;
-    navigate("/user/" + locationName);
+    navigate(
+      "/user/" + locationName,
+      locationName === "updateInfo" ? { state: { email: user.email } } : ""
+    );
   };
 
   return (

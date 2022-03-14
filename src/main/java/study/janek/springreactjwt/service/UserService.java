@@ -72,6 +72,19 @@ public class UserService {
 		return userInfoDto;
 	}
 	
+	public int updateUser(String jwtToken, String email, String password) {
+		jwtToken = jwtToken.replace(JwtProperties.TOKEN_PREFIX, "");
+		String username = 
+				JWT.require(Algorithm.HMAC512(JwtProperties.SECRET)).build().verify(jwtToken).getClaim("username").asString();
+		String encodePass = userMapper.chkUserPass(username);
+		
+		boolean isMatch = bCryptPasswordEncoder.matches(password, encodePass);
+		if (isMatch) {
+			return userMapper.updateUser(username, email);
+		}
+		return 0;
+	}
+	
 	public int updatePass(String jwtToken, String newPass) {
 		jwtToken = jwtToken.replace(JwtProperties.TOKEN_PREFIX, "");
 		String username = 

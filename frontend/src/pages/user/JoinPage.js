@@ -23,13 +23,14 @@ import {
 import QuestionMarkIcon from "@mui/icons-material/QuestionMark";
 import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
 import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
+import Loading from "../error/Loading";
 
 const theme = createTheme();
 
 export default function JoinPage() {
   const token = sessionStorage.getItem("Authorization");
   const navigate = useNavigate();
-  const domains = ["google.com", "naver.com", "daum.net"];
+  const domains = ["gmail.com", "naver.com", "daum.net"];
   const [e2, setE2] = React.useState("");
   const [user, setUser] = React.useState({
     username: "",
@@ -57,7 +58,7 @@ export default function JoinPage() {
       alert("잘못된 경로로 들어오셨습니다.");
       navigate(-1);
     }
-  }, []);
+  }, [token]);
 
   const changeValue = (e) => {
     setUser({
@@ -159,146 +160,153 @@ export default function JoinPage() {
   };
 
   return (
-    <ThemeProvider theme={theme}>
-      <Container component="main" maxWidth="xs">
-        <CssBaseline />
-        <Box
-          sx={{
-            marginTop: 8,
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-          }}
-        >
-          <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
-            <LockOutlinedIcon />
-          </Avatar>
-          <Typography component="h1" variant="h5">
-            회원가입
-          </Typography>
-          <Box
-            component="form"
-            noValidate
-            onSubmit={handleSubmit}
-            sx={{ mt: 3 }}
-          >
-            <Grid container spacing={2}>
-              <Grid item xs={12} sm={9}>
-                <TextField
-                  autoComplete="given-name"
-                  name="username"
-                  fullWidth
-                  id="username"
-                  label="아이디"
-                  autoFocus
-                  onChange={changeValue}
-                  required
-                />
-              </Grid>
-              <Grid item xs={12} sm={3}>
-                <Button
-                  variant="outlined"
-                  sx={{
-                    minWidth: 86,
-                    minHeight: 56,
-                  }}
-                  color={buttonColor}
-                  onClick={usernameDupCheck}
-                >
-                  {buttonImage}
-                </Button>
-              </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  fullWidth
-                  name="password"
-                  label="비밀번호"
-                  type="password"
-                  id="password"
-                  autoComplete="new-password"
-                  onChange={changeValue}
-                  required
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  fullWidth
-                  name="password2"
-                  label="비밀번호 확인"
-                  type="password"
-                  id="password2"
-                  autoComplete="new-password"
-                  onChange={checkPassValue}
-                  required
-                  InputProps={{
-                    endAdornment: (
-                      <InputAdornment position="end">{passImg}</InputAdornment>
-                    ),
-                  }}
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  autoComplete="given-name"
-                  name="name"
-                  fullWidth
-                  id="name"
-                  label="이름"
-                  autoFocus
-                  required
-                  onChange={changeValue}
-                />
-              </Grid>
-              <Grid item xs={12} sm={6}>
-                <TextField
-                  fullWidth
-                  id="email"
-                  label="이메일"
-                  name="e1"
-                  autoComplete="email"
-                  onChange={changeValue}
-                />
-              </Grid>
-              <Grid item xs={12} sm={1}>
-                <AlternateEmailIcon sx={{ mt: 2, ml: -0.5 }} />
-              </Grid>
-              <Grid item xs={12} sm={5}>
-                <Box sx={{ minWidth: 120 }}>
-                  <FormControl fullWidth>
-                    <InputLabel id="demo-simple-select-label">
-                      도메인
-                    </InputLabel>
-                    <Select
-                      labelId="demo-simple-select-label"
-                      id="demo-simple-select"
-                      value={e2}
-                      label="도메인"
-                      onChange={handleChange}
-                    >
-                      <MenuItem value={""} key={"no choice"}>
-                        선택 안함
-                      </MenuItem>
-                      {domains.map((domain) => (
-                        <MenuItem value={domain} key={"@" + domain}>
-                          {domain}
-                        </MenuItem>
-                      ))}
-                    </Select>
-                  </FormControl>
-                </Box>
-              </Grid>
-            </Grid>
-            <Button
-              type="submit"
-              fullWidth
-              variant="contained"
-              sx={{ mt: 3, mb: 2, background: "#2E3B55" }}
+    <div>
+      {token !== null ? (
+        <Loading />
+      ) : (
+        <ThemeProvider theme={theme}>
+          <Container component="main" maxWidth="xs">
+            <CssBaseline />
+            <Box
+              sx={{
+                marginTop: 8,
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+              }}
             >
-              회원가입
-            </Button>
-          </Box>
-        </Box>
-      </Container>
-    </ThemeProvider>
+              <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
+                <LockOutlinedIcon />
+              </Avatar>
+              <Typography component="h1" variant="h5">
+                회원가입
+              </Typography>
+              <Box
+                component="form"
+                noValidate
+                onSubmit={handleSubmit}
+                sx={{ mt: 3 }}
+              >
+                <Grid container spacing={2}>
+                  <Grid item xs={12} sm={9}>
+                    <TextField
+                      autoComplete="given-name"
+                      name="username"
+                      fullWidth
+                      id="username"
+                      label="아이디"
+                      autoFocus
+                      onChange={changeValue}
+                      required
+                    />
+                  </Grid>
+                  <Grid item xs={12} sm={3}>
+                    <Button
+                      variant="outlined"
+                      sx={{
+                        minWidth: 86,
+                        minHeight: 56,
+                      }}
+                      color={buttonColor}
+                      onClick={usernameDupCheck}
+                    >
+                      {buttonImage}
+                    </Button>
+                  </Grid>
+                  <Grid item xs={12}>
+                    <TextField
+                      fullWidth
+                      name="password"
+                      label="비밀번호"
+                      type="password"
+                      id="password"
+                      autoComplete="new-password"
+                      onChange={changeValue}
+                      required
+                    />
+                  </Grid>
+                  <Grid item xs={12}>
+                    <TextField
+                      fullWidth
+                      name="password2"
+                      label="비밀번호 확인"
+                      type="password"
+                      id="password2"
+                      autoComplete="new-password"
+                      onChange={checkPassValue}
+                      required
+                      InputProps={{
+                        endAdornment: (
+                          <InputAdornment position="end">
+                            {passImg}
+                          </InputAdornment>
+                        ),
+                      }}
+                    />
+                  </Grid>
+                  <Grid item xs={12}>
+                    <TextField
+                      autoComplete="given-name"
+                      name="name"
+                      fullWidth
+                      id="name"
+                      label="이름"
+                      required
+                      onChange={changeValue}
+                    />
+                  </Grid>
+                  <Grid item xs={12} sm={6}>
+                    <TextField
+                      fullWidth
+                      id="email"
+                      label="이메일"
+                      name="e1"
+                      autoComplete="email"
+                      onChange={changeValue}
+                    />
+                  </Grid>
+                  <Grid item xs={12} sm={1}>
+                    <AlternateEmailIcon sx={{ mt: 2, ml: -0.5 }} />
+                  </Grid>
+                  <Grid item xs={12} sm={5}>
+                    <Box sx={{ minWidth: 120 }}>
+                      <FormControl fullWidth>
+                        <InputLabel id="demo-simple-select-label">
+                          도메인
+                        </InputLabel>
+                        <Select
+                          labelId="demo-simple-select-label"
+                          id="demo-simple-select"
+                          value={e2}
+                          label="도메인"
+                          onChange={handleChange}
+                        >
+                          <MenuItem value={""} key={"no choice"}>
+                            선택 안함
+                          </MenuItem>
+                          {domains.map((domain) => (
+                            <MenuItem value={domain} key={"@" + domain}>
+                              {domain}
+                            </MenuItem>
+                          ))}
+                        </Select>
+                      </FormControl>
+                    </Box>
+                  </Grid>
+                </Grid>
+                <Button
+                  type="submit"
+                  fullWidth
+                  variant="contained"
+                  sx={{ mt: 3, mb: 2, background: "#2E3B55" }}
+                >
+                  회원가입
+                </Button>
+              </Box>
+            </Box>
+          </Container>
+        </ThemeProvider>
+      )}
+    </div>
   );
 }
