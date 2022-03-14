@@ -113,6 +113,7 @@ export default function BoardList() {
                   <TableCell align="center">번호</TableCell>
                   <TableCell align="center">제목</TableCell>
                   <TableCell align="center">작성자</TableCell>
+                  <TableCell align="center">조회수</TableCell>
                   <TableCell align="center">추천수</TableCell>
                   <TableCell align="center">작성일</TableCell>
                 </TableRow>
@@ -133,7 +134,7 @@ export default function BoardList() {
                       >
                         {row.num}
                       </TableCell>
-                      <TableCell align="center" width={"40%"}>
+                      <TableCell align="center" width={"33%"}>
                         {row.new ? (
                           <FiberNewOutlinedIcon
                             fontSize="small"
@@ -152,10 +153,13 @@ export default function BoardList() {
                       <TableCell align="center" width={"15%"}>
                         {row.writer}
                       </TableCell>
-                      <TableCell align="center" width={"15%"}>
+                      <TableCell align="center" width={"12%"}>
+                        {row.readCnt}
+                      </TableCell>
+                      <TableCell align="center" width={"12%"}>
                         {row.likeCnt}
                       </TableCell>
-                      <TableCell align="center" width={"20%"}>
+                      <TableCell align="center" width={"18%"}>
                         {row.writeDate}
                       </TableCell>
                     </TableRow>

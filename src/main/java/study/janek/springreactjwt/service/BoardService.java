@@ -17,6 +17,7 @@ import study.janek.springreactjwt.mapper.BoardMapper;
 import study.janek.springreactjwt.model.Board;
 import study.janek.springreactjwt.model.BoardLike;
 import study.janek.springreactjwt.model.PageNation;
+import study.janek.springreactjwt.model.Reply;
 
 @Service
 public class BoardService {
@@ -85,6 +86,7 @@ public class BoardService {
 		}
 
 		boardInfoDto.setBoard(board);
+		boardInfoDto.setReplyList(boardMapper.getReplyList(boardId));
 
 		return boardInfoDto;
 	}
@@ -128,6 +130,23 @@ public class BoardService {
 		board.setId(boardId);
 		board.setWriter(username);
 		boardMapper.deleteBoard(board);
+	}
+
+	public void updateReadCnt(int boardId) {
+		boardMapper.updateReadCnt(boardId);
+	}
+	
+	public int insertReply(String jwtToken, Long boardId, String content) {
+		Reply reply = new Reply();
+		jwtToken = jwtToken.replace(JwtProperties.TOKEN_PREFIX, "");
+		String username = JWT.require(Algorithm.HMAC512(JwtProperties.SECRET)).build().verify(jwtToken)
+				.getClaim("username").asString();
+		
+		reply.setBoardId(boardId);
+		reply.setWriter(username);
+		reply.setContent(content);
+		
+		return boardMapper.insertReply(reply);
 	}
 
 }

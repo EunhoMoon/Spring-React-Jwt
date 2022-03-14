@@ -9,7 +9,8 @@
 		<if test="keyword != ''">
 			<choose>
 				<when test="!isOnly">
-					WHERE ${search} LIKE '%${keyword}%' or '${keyword}%' or '%${keyword}' or
+					WHERE ${search} LIKE '%${keyword}%' or '${keyword}%'
+					or '%${keyword}' or
 					'${keyword}'
 				</when>
 				<otherwise>
@@ -25,7 +26,8 @@
 		<if test='!keyword.equals("")'>
 			<choose>
 				<when test="!isOnly">
-					WHERE ${search} LIKE '%${keyword}%' or '${keyword}%' or '%${keyword}' or
+					WHERE ${search} LIKE '%${keyword}%' or '${keyword}%'
+					or '%${keyword}' or
 					'${keyword}'
 				</when>
 				<otherwise>
@@ -35,9 +37,19 @@
 		</if>
 	</select>
 
+	<update id="updateReadCnt" parameterType="int">
+		UPDATE board SET
+		readCnt = readCnt + 1 WHERE id=#{boardId}
+	</update>
+
 	<select id="getBoardItem" resultType="Board">
 		SELECT * FROM board WHERE
 		id=#{boardId}
+	</select>
+	
+	<select id="getReplyList" parameterType="int" resultType="Reply">
+		SELECT * FROM reply WHERE
+		boardId=#{boardId} ORDER BY writeDate DESC
 	</select>
 
 	<select id="getBoardLike" resultType="BoardLike">
@@ -65,4 +77,7 @@
 		#{writer});
 	</select>
 
+	<insert id="insertReply" parameterType="Reply">
+		INSERT INTO reply (boardId, writer, content) VALUES (#{boardId}, #{writer}, #{content})
+	</insert>
 </mapper>

@@ -1,5 +1,7 @@
 package study.janek.springreactjwt.model;
 
+import java.util.List;
+
 public class Board {
 
 	private Long id;
@@ -11,6 +13,7 @@ public class Board {
 	private int readCnt;
 	private int likeCnt;
 	private boolean isNew;
+	private List<Reply> replyList;
 
 	public Long getId() {
 		return id;
@@ -82,6 +85,14 @@ public class Board {
 
 	public void setNew(boolean isNew) {
 		this.isNew = isNew;
+	}
+
+	public List<Reply> getReplyList() {
+		return replyList;
+	}
+
+	public void setReplyList(List<Reply> replyList) {
+		this.replyList = replyList;
 	}
 
 	@Override

@@ -12,6 +12,9 @@ import axios from "axios";
 import ReplyIcon from "@mui/icons-material/Reply";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import Loading from "../error/Loading";
+import InputForm from "../../component/InputForm";
+import ReplyItem from "../../component/ReplyItem";
+import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 
 const BoardDetail = () => {
   const boardId = useParams().boardId;
@@ -20,6 +23,7 @@ const BoardDetail = () => {
   const token = sessionStorage.getItem("Authorization");
   const [isLike, setIsLike] = useState(false);
   const [isWriter, setIsWriter] = useState(false);
+  const [replylist, setReplyList] = useState([]);
   token !== null && token !== ""
     ? (axios.defaults.headers.common["Authorization"] = token)
     : (axios.defaults.headers.common["Authorization"] = "");
@@ -31,12 +35,20 @@ const BoardDetail = () => {
         setBoard(res.data.board);
         setIsLike(res.data.isLike);
         setIsWriter(res.data.isWriter);
+        setReplyList(res.data.replyList);
       })
       .catch((error) => {
         sessionStorage.clear();
         window.location.replace();
       });
   }, [boardId, isLike]);
+
+  useEffect(() => {
+    axios
+      .post("/api/updateReadCnt/" + boardId)
+      .then((res) => {})
+      .catch((error) => {});
+  }, []);
 
   const setLike = () => {
     if (token === null || token === "") {
@@ -79,41 +91,53 @@ const BoardDetail = () => {
   return (
     <div>
       {board.id !== undefined ? (
-        <Card sx={{ maxWidth: 500 }} style={{ margin: "30px auto" }}>
-          <CardHeader
-            avatar={
-              <Avatar sx={{ bgcolor: grey[500] }} aria-label="recipe">
-                <ReplyIcon
-                  sx={{ cursor: "pointer" }}
-                  onClick={() => navigate(-1)}
-                />
-              </Avatar>
-            }
-            action={
-              <div style={{ marginRight: 10 }}>
-                {isWriter ? (
-                  <IconButton aria-label="delete" onClick={deleteBoard}>
-                    <DeleteForeverIcon />
-                  </IconButton>
-                ) : null}
-                &nbsp;
-                <span style={{ marginTop: 3 }}>{board.likeCnt}</span>
-                <IconButton aria-label="add to favorites" onClick={setLike}>
-                  <FavoriteIcon color={isLike ? "error" : ""} />
-                </IconButton>
-              </div>
-            }
-            title={board.title}
-            subheader={board.writer + "  " + board.writeDate}
+        <div>
+          <ArrowBackIosNewIcon
+            sx={{ cursor: "pointer" }}
+            onClick={() => navigate(-1)}
           />
-          <CardContent>
-            <Typography
-              variant="body2"
-              color="text.secondary"
-              dangerouslySetInnerHTML={{ __html: board.content }}
-            ></Typography>
-          </CardContent>
-        </Card>
+          <Card sx={{ maxWidth: 500 }} style={{ margin: "30px auto" }}>
+            <CardHeader
+              action={
+                <div style={{ marginRight: 10 }}>
+                  {isWriter ? (
+                    <IconButton aria-label="delete" onClick={deleteBoard}>
+                      <DeleteForeverIcon />
+                    </IconButton>
+                  ) : null}
+                  &nbsp;
+                  <span style={{ marginTop: 3 }}>{board.likeCnt}</span>
+                  <IconButton aria-label="add to favorites" onClick={setLike}>
+                    <FavoriteIcon color={isLike ? "error" : ""} />
+                  </IconButton>
+                </div>
+              }
+              title={board.title}
+              subheader={
+                board.writer +
+                " / View : " +
+                board.readCnt +
+                " / Date : " +
+                board.writeDate
+              }
+            />
+            <CardContent>
+              <Typography
+                variant="body2"
+                color="text.secondary"
+                dangerouslySetInnerHTML={{ __html: board.content }}
+              ></Typography>
+            </CardContent>
+          </Card>
+          <InputForm boardId={boardId} />
+          {replylist.map((reply) => (
+            <ReplyItem
+              key={"@" + reply.id}
+              reply={reply}
+              writer={board.writer}
+            />
+          ))}
+        </div>
       ) : (
         <Loading />
       )}

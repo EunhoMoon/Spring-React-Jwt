@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.Mapper;
 import study.janek.springreactjwt.dto.SearchDto;
 import study.janek.springreactjwt.model.Board;
 import study.janek.springreactjwt.model.BoardLike;
+import study.janek.springreactjwt.model.Reply;
 
 @Mapper
 public interface BoardMapper {
@@ -17,6 +18,10 @@ public interface BoardMapper {
 	
 	public Board getBoardItem(int boardId);
 	
+	public List<Reply> getReplyList(int boardId);
+	
+	public void updateReadCnt(int boardId);
+	
 	public List<BoardLike> getBoardLike(int boardId);
 	
 	public int insertBoard(Board board);
@@ -26,4 +31,6 @@ public interface BoardMapper {
 	public int deleteLike(BoardLike boardLike);
 	
 	public Board deleteBoard(Board board);
+	
+	public int insertReply(Reply reply);
 }
