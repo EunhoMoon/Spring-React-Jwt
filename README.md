@@ -63,9 +63,7 @@ CREATE TABLE board (
 /* 게시판 좋아요 테이블 */
 CREATE TABLE board_like (
   id INT NOT NULL,
-  username VARCHAR(256) NOT NULL,
-  FOREIGN KEY (id) REFERENCES board(id),
-  FOREIGN KEY (username) REFERENCES user(username)
+  username VARCHAR(256) NOT NULL
 );
 
 /* 댓글 테이블 */
@@ -78,6 +76,14 @@ CREATE TABLE reply (
   writeDate DATETIME DEFAULT NOW(),
   FOREIGN KEY (boardId) REFERENCES board(id),
   FOREIGN KEY (writer) REFERENCES user(username)
+);
+
+/* 댓글 좋아요 테이블 */
+CREATE TABLE reply_like (
+  id INT NOT NULL,
+  username VARCHAR(256) NOT NULL,
+  kind VARCHAR(4) NOT NULL,
+  score INT NOT NULL
 );
 
 /* 게시글 삭제 프로시저 */
@@ -100,16 +106,6 @@ BEGIN
     DELETE FROM board WHERE id=boardid AND writer=username;
   COMMIT;
 END
-
-/* 댓글 좋아요 테이블 */
-CREATE TABLE reply_like (
-  id INT NOT NULL,
-  username VARCHAR(256) NOT NULL,
-  kind VARCHAR(4) NOT NULL,
-  score INT NOT NULL,
-  FOREIGN KEY (id) REFERENCES reply(id),
-  FOREIGN KEY (username) REFERENCES user(username)
-);
 
 /* 게시글 좋아요 트리거 */
   /* 좋아요 생성시 */

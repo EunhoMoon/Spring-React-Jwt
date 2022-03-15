@@ -112,11 +112,14 @@ const BoardDetail = () => {
               }
               title={board.title}
               subheader={
-                board.writer +
-                " / View : " +
-                board.readCnt +
-                " / Date : " +
-                board.writeDate
+                <span style={{ fontSize: "0.8em" }}>
+                  {"작성자 : " +
+                    board.writer +
+                    " | 조회수 : " +
+                    board.readCnt +
+                    " | 게시일 : " +
+                    board.writeDate}
+                </span>
               }
             />
             <CardContent>
