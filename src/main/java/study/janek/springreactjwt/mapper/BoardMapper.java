@@ -8,6 +8,7 @@ import study.janek.springreactjwt.dto.SearchDto;
 import study.janek.springreactjwt.model.Board;
 import study.janek.springreactjwt.model.BoardLike;
 import study.janek.springreactjwt.model.Reply;
+import study.janek.springreactjwt.model.ReplyLike;
 
 @Mapper
 public interface BoardMapper {
@@ -33,4 +34,10 @@ public interface BoardMapper {
 	public Board deleteBoard(Board board);
 	
 	public int insertReply(Reply reply);
+	
+	public List<ReplyLike> getReplyLikeList(Long replyId);
+	
+	public int insertReplyLike(ReplyLike replyLike);
+	
+	public int deleteReplyLike(ReplyLike replyLike);
 }

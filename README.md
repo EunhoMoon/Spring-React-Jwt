@@ -67,6 +67,61 @@ CREATE TABLE board_like (
   FOREIGN KEY (id) REFERENCES board(id),
   FOREIGN KEY (username) REFERENCES user(username)
 );
+
+/* 댓글 테이블 */
+CREATE TABLE reply (
+	id INT AUTO_INCREMENT PRIMARY KEY,
+	boardId INT,
+	writer VARCHAR(256),
+	content VARCHAR(500) NOT NULL,
+	gnb INT DEFAULT 0,
+	writeDate DATETIME DEFAULT NOW(),
+	FOREIGN KEY (boardId) REFERENCES board(id),
+	FOREIGN KEY (writer) REFERENCES user(username)
+);
+
+/* 댓글 좋아요 테이블 */
+CREATE TABLE reply_like (
+  id INT NOT NULL,
+  username VARCHAR(256) NOT NULL,
+  kind VARCHAR(4) NOT NULL,
+  score INT NOT NULL,
+  FOREIGN KEY (id) REFERENCES reply(id),
+  FOREIGN KEY (username) REFERENCES user(username)
+);
+
+/* 댓글 좋아요 트리거 */
+  /* 좋아요 생성시 */
+  DELIMITER $$
+
+  CREATE TRIGGER update_reply_like
+  AFTER UPDATE ON reply_like
+  FOR EACH ROW
+  BEGIN
+    IF NEW.kind = 'good' THEN
+      UPDATE reply SET good = (good + 1) WHERE id = new.id;
+    ELSEIF NEW.kind = 'bad' THEN
+      UPDATE reply SET bad = (bad + 1) WHERE id = new.id;
+      END IF;
+  END $$
+
+  DELIMITER ;
+
+  /* 좋아요 삭제시 */
+  DELIMITER $$
+
+  CREATE TRIGGER delete_reply_like
+  AFTER DELETE ON reply_like
+  FOR EACH ROW
+  BEGIN
+    IF OLD.kind = 'good' THEN
+      UPDATE reply SET good = (good - 1) WHERE id = OLD.id;
+    ELSEIF OLD.kind = 'bad' THEN
+      UPDATE reply SET bad = (bad - 1) WHERE id = OLD.id;
+      END IF;
+  END $$
+
+  DELIMITER ;
 ```
 
 ### To Do Lists

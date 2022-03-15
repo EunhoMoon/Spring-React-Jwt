@@ -80,4 +80,16 @@
 	<insert id="insertReply" parameterType="Reply">
 		INSERT INTO reply (boardId, writer, content) VALUES (#{boardId}, #{writer}, #{content})
 	</insert>
+	
+	<select id="getReplyLikeList" parameterType="Long" resultType="ReplyLike">
+		SELECT * FROM reply_like WHERE id=#{boardId}
+	</select>
+	
+	<insert id="insertReplyLike" parameterType="ReplyLike">
+		INSERT INTO reply_like (id, username, kind) VALUES (#{id}, #{username}, #{kind})
+	</insert>
+	
+	<delete id="deleteReplyLike" parameterType="ReplyLike">
+		DELETE FROM reply_like WHERE id=#{id} AND username=#{username}
+	</delete>
 </mapper>

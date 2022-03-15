@@ -1,13 +1,11 @@
 import { Button, Grid, Paper, TextField } from "@mui/material";
 import { Box } from "@mui/system";
 import axios from "axios";
-import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useState } from "react";
 
 const InputForm = ({ boardId }) => {
   const [content, setContent] = useState();
   const token = sessionStorage.getItem("Authorization");
-  const navigate = useNavigate();
 
   const changeHandler = (e) => {
     setContent(e.target.value);
@@ -25,7 +23,7 @@ const InputForm = ({ boardId }) => {
         frm.append("content", content);
 
         axios
-          .post("/api/board/insertReply/" + boardId, frm, {
+          .post("/api/reply/insertReply/" + boardId, frm, {
             headers: {
               "Content-Type": "multipart/form-data",
             },

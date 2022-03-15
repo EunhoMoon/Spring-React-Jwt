@@ -2,14 +2,11 @@ import React, { useEffect, useState } from "react";
 import Card from "@mui/material/Card";
 import CardHeader from "@mui/material/CardHeader";
 import CardContent from "@mui/material/CardContent";
-import Avatar from "@mui/material/Avatar";
 import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
-import { grey } from "@mui/material/colors";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
-import ReplyIcon from "@mui/icons-material/Reply";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import Loading from "../error/Loading";
 import InputForm from "../../component/InputForm";
@@ -24,6 +21,7 @@ const BoardDetail = () => {
   const [isLike, setIsLike] = useState(false);
   const [isWriter, setIsWriter] = useState(false);
   const [replylist, setReplyList] = useState([]);
+  const [reRender, setReRender] = useState(0);
   token !== null && token !== ""
     ? (axios.defaults.headers.common["Authorization"] = token)
     : (axios.defaults.headers.common["Authorization"] = "");
@@ -41,7 +39,7 @@ const BoardDetail = () => {
         sessionStorage.clear();
         window.location.replace();
       });
-  }, [boardId, isLike]);
+  }, [boardId, isLike, reRender]);
 
   useEffect(() => {
     axios
@@ -132,9 +130,12 @@ const BoardDetail = () => {
           <InputForm boardId={boardId} />
           {replylist.map((reply) => (
             <ReplyItem
-              key={"@" + reply.id}
+              key={"@" + reply.reply.id + "@"}
               reply={reply}
               writer={board.writer}
+              token={token}
+              reRender={reRender}
+              setReRender={setReRender}
             />
           ))}
         </div>

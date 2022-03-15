@@ -10,7 +10,7 @@ public class BoardInfoDto {
 	private Board board;
 	private Boolean isLike;
 	private Boolean isWriter;
-	private List<Reply> replyList;
+	private List<ReplyInfoDto> replyList;
 
 	public Board getBoard() {
 		return board;
@@ -36,11 +36,11 @@ public class BoardInfoDto {
 		this.isWriter = isWriter;
 	}
 
-	public List<Reply> getReplyList() {
+	public List<ReplyInfoDto> getReplyList() {
 		return replyList;
 	}
 
-	public void setReplyList(List<Reply> replyList) {
+	public void setReplyList(List<ReplyInfoDto> replyList) {
 		this.replyList = replyList;
 	}
 

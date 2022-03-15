@@ -17,6 +17,8 @@
 			alias="Search" />
 		<typeAlias type="study.janek.springreactjwt.model.Reply"
 			alias="Reply" />
+		<typeAlias type="study.janek.springreactjwt.model.ReplyLike"
+			alias="ReplyLike" />
 	</typeAliases>
 
 	<mappers>
