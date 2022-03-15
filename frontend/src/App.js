@@ -16,13 +16,9 @@ import Loading from "./pages/error/Loading";
 import UpdateUserInfo from "./pages/user/UpdateUserInfo";
 
 function App() {
-  const [isLogin, setIsLogin] = useState(false);
+  const isLogin =
+    sessionStorage.getItem("Authorization") !== null ? true : false;
 
-  useEffect(() => {
-    if (sessionStorage.getItem("Authorization") !== null) {
-      setIsLogin(true);
-    }
-  }, []);
   console.log(isLogin);
 
   return (

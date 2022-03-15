@@ -10,38 +10,31 @@ import axios from "axios";
 const ReplyItem = ({ reply, writer, token, reRender, setReRender }) => {
   const [gnb, setGnb] = useState(reply.gnb !== null ? reply.gnb : "n");
 
+  const requestHandler = (frm) => {
+    axios
+      .post("/api/reply/updateReply/" + reply.reply.id, frm, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      })
+      .then()
+      .catch(() => {
+        alert("일시적인 오류가 발생했습니다.\n잠시 후 다시 시도해주세요.");
+      });
+  };
+
   const gnbHandler = (e) => {
     const frm = new FormData();
     frm.append("kind", e);
     if (token !== null && token !== "") {
       if (gnb === "n") {
         frm.append("type", "up");
-        axios
-          .post("/api/reply/updateReply/" + reply.reply.id, frm, {
-            headers: {
-              "Content-Type": "multipart/form-data",
-            },
-          })
-          .then()
-          .catch(() => {
-            alert("일시적인 오류가 발생했습니다.\n잠시 후 다시 시도해주세요.");
-          });
+        requestHandler(frm);
         setGnb(e);
       } else {
         if (gnb === e) {
           frm.append("type", "del");
-          axios
-            .post("/api/reply/updateReply/" + reply.reply.id, frm, {
-              headers: {
-                "Content-Type": "multipart/form-data",
-              },
-            })
-            .then()
-            .catch(() => {
-              alert(
-                "일시적인 오류가 발생했습니다.\n잠시 후 다시 시도해주세요."
-              );
-            });
+          requestHandler(frm);
           setGnb("n");
         } else {
           alert("이미 추천/비추천 하셨습니다.");
