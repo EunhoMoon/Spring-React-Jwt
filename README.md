@@ -91,17 +91,14 @@ CONTAINS SQL
 SQL SECURITY DEFINER
 COMMENT ''
 BEGIN
-	DECLARE exit handler for SQLEXCEPTION
-	  BEGIN
-		ROLLBACK;
-	END;
-
-	START TRANSACTION;
-		DELETE FROM boardlike WHERE id=boardid;
-
-		DELETE FROM board WHERE id=boardid AND writer=username;
-
-	COMMIT;
+  DECLARE exit handler for SQLEXCEPTION
+    BEGIN
+      ROLLBACK;
+    END;
+  START TRANSACTION;
+    DELETE FROM boardlike WHERE id=boardid;
+    DELETE FROM board WHERE id=boardid AND writer=username;
+  COMMIT;
 END
 
 /* 댓글 좋아요 테이블 */
