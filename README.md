@@ -70,15 +70,39 @@ CREATE TABLE board_like (
 
 /* 댓글 테이블 */
 CREATE TABLE reply (
-	id INT AUTO_INCREMENT PRIMARY KEY,
-	boardId INT,
-	writer VARCHAR(256),
-	content VARCHAR(500) NOT NULL,
-	gnb INT DEFAULT 0,
-	writeDate DATETIME DEFAULT NOW(),
-	FOREIGN KEY (boardId) REFERENCES board(id),
-	FOREIGN KEY (writer) REFERENCES user(username)
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  boardId INT,
+  writer VARCHAR(256),
+  content VARCHAR(500) NOT NULL,
+  gnb INT DEFAULT 0,
+  writeDate DATETIME DEFAULT NOW(),
+  FOREIGN KEY (boardId) REFERENCES board(id),
+  FOREIGN KEY (writer) REFERENCES user(username)
 );
+
+/* 댓글 삭제 프로시저 */
+CREATE PROCEDURE `delete_board`(
+	IN `boardId` INT,
+	IN `username` VARCHAR(256)
+)
+LANGUAGE SQL
+NOT DETERMINISTIC
+CONTAINS SQL
+SQL SECURITY DEFINER
+COMMENT ''
+BEGIN
+	DECLARE exit handler for SQLEXCEPTION
+	  BEGIN
+		ROLLBACK;
+	END;
+
+	START TRANSACTION;
+		DELETE FROM boardlike WHERE id=boardid;
+
+		DELETE FROM board WHERE id=boardid AND writer=username;
+
+	COMMIT;
+END
 
 /* 댓글 좋아요 테이블 */
 CREATE TABLE reply_like (
@@ -89,6 +113,31 @@ CREATE TABLE reply_like (
   FOREIGN KEY (id) REFERENCES reply(id),
   FOREIGN KEY (username) REFERENCES user(username)
 );
+
+/* 게시글 좋아요 트리거 */
+  /* 좋아요 생성시 */
+  DELIMITER $$
+
+  CREATE TRIGGER update_like
+  AFTER UPDATE ON boardlike
+  FOR EACH ROW
+  BEGIN
+    UPDATE board SET likeCnt = (likeCnt + 1) WHERE id = NEW.id;
+  END $$
+
+  DELIMITER ;
+
+  /* 좋아요 삭제시 */
+  DELIMITER $$
+
+  CREATE TRIGGER delete_like
+  AFTER DELETE ON boardlike
+  FOR EACH ROW
+  BEGIN
+    UPDATE board SET likeCnt = (likeCnt - 1) WHERE id = OLD.id;
+  END $$
+
+  DELIMITER ;
 
 /* 댓글 좋아요 트리거 */
   /* 좋아요 생성시 */
