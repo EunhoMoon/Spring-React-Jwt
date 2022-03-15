@@ -80,10 +80,10 @@ CREATE TABLE reply (
   FOREIGN KEY (writer) REFERENCES user(username)
 );
 
-/* 댓글 삭제 프로시저 */
+/* 게시글 삭제 프로시저 */
 CREATE PROCEDURE `delete_board`(
-	IN `boardId` INT,
-	IN `username` VARCHAR(256)
+  IN `boardId` INT,
+  IN `username` VARCHAR(256)
 )
 LANGUAGE SQL
 NOT DETERMINISTIC
