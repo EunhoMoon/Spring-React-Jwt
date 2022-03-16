@@ -17,6 +17,7 @@ import UpdateUserInfo from "./pages/user/UpdateUserInfo";
 import NotAuth from "./pages/error/NotAuth";
 import UserList from "./pages/admin/UserList";
 import axios from "axios";
+import UserInfo from "./pages/admin/UserInfo";
 
 function App() {
   const isLogin =
@@ -63,6 +64,7 @@ function App() {
             path="/admin/user/list/:pNum"
             element={<UserList isAdmin={isAdmin} />}
           />
+          <Route path="/admin/user/info/:username" element={<UserInfo />} />
           <Route path="/*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>

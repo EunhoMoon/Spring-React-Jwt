@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import study.janek.springreactjwt.dto.UserInfoDto;
 import study.janek.springreactjwt.model.PageNation;
 import study.janek.springreactjwt.service.AdminService;
 
@@ -27,6 +28,11 @@ public class AdminApiController {
 		boolean isO = isOnly.equals("y") ? true : false;
 		
 		return adminService.getUserList(pNum, search, keyword, isO);
+	}
+	
+	@GetMapping("/api/admin/getUserInfo/{username}")
+	public UserInfoDto getUserInfo(@PathVariable String username) {
+		return adminService.getUserInfo(username);
 	}
 
 }

@@ -10,14 +10,14 @@ import DateRangeIcon from "@mui/icons-material/DateRange";
 import EmailIcon from "@mui/icons-material/Email";
 import AssignmentIcon from "@mui/icons-material/Assignment";
 import { Container } from "react-bootstrap";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import InboxIcon from "@mui/icons-material/MoveToInbox";
 import {
   Box,
-  Button,
   Collapse,
   Grid,
+  Button,
   ListItemButton,
   ListItemIcon,
   Typography,
@@ -25,7 +25,8 @@ import {
 import ExpandLess from "@mui/icons-material/ExpandLess";
 import ExpandMore from "@mui/icons-material/ExpandMore";
 
-export default function MyInfo() {
+export default function UserInfo() {
+  const username = useParams().username;
   const [user, setUser] = React.useState({
     username: "",
     name: "",
@@ -43,13 +44,8 @@ export default function MyInfo() {
   };
 
   React.useEffect(() => {
-    if (token === null || token === "") {
-      alert("잘못된 경로로 들어오셨습니다.");
-      navigate(-1);
-    }
-
     axios
-      .post("/api/user/info")
+      .get("/api/admin/getUserInfo/" + username)
       .then((res) => {
         setUser(res.data.user);
         setUserContents(res.data.userContents);
@@ -63,12 +59,8 @@ export default function MyInfo() {
       });
   }, []);
 
-  const moveLocation = (e) => {
-    const locationName = e.target.name;
-    navigate(
-      "/user/" + locationName,
-      locationName === "updateInfo" ? { state: { email: user.email } } : ""
-    );
+  const backToList = () => {
+    navigate(-1);
   };
 
   return (
@@ -192,12 +184,13 @@ export default function MyInfo() {
         </Collapse>
 
         <Grid container spacing={2}>
-          <Grid item xs={12} sm={6}>
+          <Grid item xs={12} sm={8}></Grid>
+          <Grid item xs={12} sm={4}>
             <Button
               type="button"
               variant="contained"
-              name="updateInfo"
-              onClick={moveLocation}
+              name="backToList"
+              onClick={backToList}
               sx={{
                 mt: 3,
                 mb: 2,
@@ -206,24 +199,7 @@ export default function MyInfo() {
                 width: "100%",
               }}
             >
-              정보 수정
-            </Button>
-          </Grid>
-          <Grid item xs={12} sm={6}>
-            <Button
-              type="button"
-              variant="contained"
-              name="updatePass"
-              onClick={moveLocation}
-              sx={{
-                mt: 3,
-                mb: 2,
-                ml: 1.5,
-                background: "#2E3B55",
-                width: "100%",
-              }}
-            >
-              비밀번호 변경
+              목록으로
             </Button>
           </Grid>
         </Grid>

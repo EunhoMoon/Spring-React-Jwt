@@ -130,7 +130,7 @@ export default function UserList({ isAdmin }) {
                       <TableCell align="center">
                         <Link
                           className="titleLink"
-                          to={"/board/detail/" + row.id}
+                          to={"/admin/user/info/" + row.username}
                         >
                           {row.username}
                         </Link>
