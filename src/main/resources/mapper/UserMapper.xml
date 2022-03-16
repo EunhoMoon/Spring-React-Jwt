@@ -31,8 +31,4 @@
 		SELECT * FROM board WHERE writer=#{username} ORDER BY writeDate DESC LIMIT 0, 10
 	</select>
 
-	<select id="findByOAuthId" parameterType="User" resultType="User">
-		SELECT * FROM user WHERE oauthId=#{oauthId}
-	</select>
-
 </mapper>

@@ -59,8 +59,4 @@ public class UserApiController {
 		return new ResponseEntity<>(userService.updatePass(jwtToken, newPass), HttpStatus.OK);
 	}
 	
-	@PostMapping("/api/findByOAuthId")
-	public User findByOAuthId(@RequestBody User user) {
-		return userService.findByOAuthId(user);
-	}
 }

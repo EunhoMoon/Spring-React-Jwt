@@ -24,6 +24,4 @@ public interface UserMapper {
 	
 	public int updateUser(String username, String email);
 	
-	public User findByOAuthId(User user);
-	
 }
