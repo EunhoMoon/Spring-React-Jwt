@@ -26,7 +26,6 @@ import { grey } from "@mui/material/colors";
 import ChatBubbleOutlineIcon from "@mui/icons-material/ChatBubbleOutline";
 import { Box } from "@mui/system";
 import SearchIcon from "@mui/icons-material/Search";
-import Loading from "../error/Loading";
 import FiberNewOutlinedIcon from "@mui/icons-material/FiberNewOutlined";
 
 export default function BoardList() {
@@ -206,6 +205,7 @@ export default function BoardList() {
                 variant="outlined"
                 size="small"
                 onChange={handleKeywordChange}
+                defaultValue={keyword}
               />
             </div>
           </Grid>

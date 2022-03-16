@@ -14,17 +14,38 @@ import BoardDetail from "./pages/board/BoardDetail";
 import BoardWrite from "./pages/board/BoardWrite";
 import Loading from "./pages/error/Loading";
 import UpdateUserInfo from "./pages/user/UpdateUserInfo";
+import NotAuth from "./pages/error/NotAuth";
+import UserList from "./pages/admin/UserList";
+import axios from "axios";
 
 function App() {
   const isLogin =
     sessionStorage.getItem("Authorization") !== null ? true : false;
+  const token = sessionStorage.getItem("Authorization");
+  axios.defaults.headers.common["Authorization"] = token;
+  const [isAdmin, setIsAdmin] = useState(false);
 
-  console.log(isLogin);
+  useEffect(() => {
+    if (token !== null || token !== "") {
+      axios
+        .post("/api/user/info", {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        })
+        .then((res) => {
+          setIsAdmin(res.data.user.roles === "ROLE_ADMIN" ? true : false);
+        })
+        .catch(setIsAdmin(false));
+    }
+  }, []);
+
+  console.log(isAdmin);
 
   return (
     <div className="App">
       <BrowserRouter>
-        <Header isLogin={isLogin} />
+        <Header isLogin={isLogin} isAdmin={isAdmin} />
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/login" element={<LoginPage isLogin={isLogin} />} />
@@ -38,6 +59,10 @@ function App() {
           <Route path="/calendar" element={<Calendar />} />
           <Route path="/user/updateInfo" element={<UpdateUserInfo />} />
           <Route path="/loading" element={<Loading />} />
+          <Route
+            path="/admin/user/list/:pNum"
+            element={<UserList isAdmin={isAdmin} />}
+          />
           <Route path="/*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>

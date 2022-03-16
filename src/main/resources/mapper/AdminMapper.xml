@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="study.janek.springreactjwt.mapper.AdminMapper">
+
+	<select id="getUserList" resultType="User" parameterType="Search">
+		SELECT * FROM user WHERE 
+		<if test="keyword != ''">
+			<choose>
+				<when test="!isOnly">
+					${search} LIKE '%${keyword}%' or '${keyword}%'
+					or '%${keyword}' or
+					'${keyword}' AND
+				</when>
+				<otherwise>
+					${search} LIKE '${keyword}' AND
+				</otherwise>
+			</choose>
+		</if>
+		roles='ROLE_USER' ORDER BY id DESC LIMIT #{sNum}, 10
+	</select>
+
+	<select id="getListSize" resultType="int" parameterType="Search">
+		SELECT COUNT(*) FROM
+		user WHERE 
+		<if test='!keyword.equals("")'>
+			<choose>
+				<when test="!isOnly">
+					${search} LIKE '%${keyword}%' or '${keyword}%'
+					or '%${keyword}' or
+					'${keyword}'  AND
+				</when>
+				<otherwise>
+					${search} LIKE '${keyword}' AND
+				</otherwise>
+			</choose>
+		</if>
+		roles='ROLE_USER'
+	</select>
+
+</mapper>

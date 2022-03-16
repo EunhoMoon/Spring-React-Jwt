@@ -58,9 +58,4 @@ public class UserApiController {
 	public ResponseEntity<?> updatePass(@RequestHeader("Authorization") String jwtToken, String newPass) {
 		return new ResponseEntity<>(userService.updatePass(jwtToken, newPass), HttpStatus.OK);
 	}
-	
-	@GetMapping("/api/admin")
-	public String admin() {
-		return "admin";
-	}
 }

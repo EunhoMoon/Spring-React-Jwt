@@ -13,9 +13,11 @@ import MenuItem from "@mui/material/MenuItem";
 import { Link, useNavigate } from "react-router-dom";
 import ManageAccountsIcon from "@mui/icons-material/ManageAccounts";
 
-const Header = ({ isLogin }) => {
-  const pages = ["Board"];
-  const settings = isLogin ? ["Profile", "Logout"] : ["Login", "Join"];
+const Header = ({ isLogin, isAdmin }) => {
+  const pages = ["게시판"];
+  const settings = isLogin
+    ? [isAdmin ? "회원관리" : "마이페이지", "로그아웃"]
+    : ["로그인", "회원가입"];
   const navigate = useNavigate();
 
   const [anchorElNav, setAnchorElNav] = React.useState(null);
@@ -38,17 +40,25 @@ const Header = ({ isLogin }) => {
 
   const moveUserPage = (event) => {
     let value = event.target.outerText;
-    if (value === "Login") {
+    if (value === "로그인") {
       navigate("/login");
-    } else if (value === "Logout") {
+    } else if (value === "로그아웃") {
       sessionStorage.clear();
       window.location.replace("/");
-    } else if (value === "Profile") {
+    } else if (value === "마이페이지") {
       navigate("/user/myInfo");
-    } else if (value === "Join") {
+    } else if (value === "회원가입") {
       navigate("/join");
-    } else if (value === "BOARD" || value === "Board") {
-      navigate("/board/list/1");
+    } else if (value === "게시판") {
+      navigate("/board/list/1", {
+        state: {
+          search: "",
+          keyword: "",
+          isOnly: "n",
+        },
+      });
+    } else if (value === "회원관리") {
+      navigate("/admin/user/list/1");
     }
   };
 

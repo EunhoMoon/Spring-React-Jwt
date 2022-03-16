@@ -76,10 +76,6 @@ public class BoardApiController {
 	
 	@PostMapping("/api/reply/updateReply/{replyId}")
 	public int updateReply(@RequestHeader("Authorization") String jwtToken, @PathVariable Long replyId, String kind, String type) {
-		System.out.println(jwtToken);
-		System.out.println(replyId);
-		System.out.println(kind);
-		System.out.println(type);
 		return boardService.updateReply(jwtToken, replyId, kind, type);
 	}
 }

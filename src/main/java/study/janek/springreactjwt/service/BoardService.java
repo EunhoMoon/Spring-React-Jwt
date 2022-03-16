@@ -33,12 +33,12 @@ public class BoardService {
 	}
 
 	public PageNation getBoardList(int pNum, String search, String keyword, boolean isOnly) {
+		String today = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
 		int sNum = (pNum - 1) * 10;
 		SearchDto searchDto = new SearchDto(sNum, search, keyword, isOnly);
-		int listSize = boardMapper.getListSize(searchDto);
 		List<Board> boardList = boardMapper.getBoardList(searchDto);
+		int listSize = boardMapper.getListSize(searchDto);
 		int num = listSize - 10 * (pNum - 1);
-		String today = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
 
 		for (Board board : boardList) {
 			board.setNum(num);
@@ -117,9 +117,9 @@ public class BoardService {
 						replyInfoDto.setGnb(replyLike.getKind());
 						System.out.println("im in");
 						break;
-					} 
+					}
 				}
-			} 
+			}
 
 			replyInfoDtos.add(idx, replyInfoDto);
 			idx++;
