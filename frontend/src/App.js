@@ -14,10 +14,11 @@ import BoardDetail from "./pages/board/BoardDetail";
 import BoardWrite from "./pages/board/BoardWrite";
 import Loading from "./pages/error/Loading";
 import UpdateUserInfo from "./pages/user/UpdateUserInfo";
-import NotAuth from "./pages/error/NotAuth";
 import UserList from "./pages/admin/UserList";
 import axios from "axios";
 import UserInfo from "./pages/admin/UserInfo";
+import Auth from "./Auth";
+import Profile from "./pages/user/Profile";
 
 function App() {
   const isLogin =
@@ -27,7 +28,7 @@ function App() {
   const [isAdmin, setIsAdmin] = useState(false);
 
   useEffect(() => {
-    if (token !== null || token !== "") {
+    if (token !== null && token !== "") {
       axios
         .post("/api/user/info", {
           headers: {
@@ -60,6 +61,8 @@ function App() {
           <Route path="/calendar" element={<Calendar />} />
           <Route path="/user/updateInfo" element={<UpdateUserInfo />} />
           <Route path="/loading" element={<Loading />} />
+          <Route path="/oauth/kakao/callback" element={<Auth />} />
+          <Route path="/profile" element={<Profile />} />
           <Route
             path="/admin/user/list/:pNum"
             element={<UserList isAdmin={isAdmin} />}

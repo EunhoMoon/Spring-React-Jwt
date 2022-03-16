@@ -14,6 +14,7 @@ public class User {
 	private String roles;
 	private String joinDate;
 	private String lastLogin;
+	private String oauthId;
 
 	public Long getId() {
 		return id;
@@ -70,13 +71,21 @@ public class User {
 	public void setJoinDate(String joinDate) {
 		this.joinDate = joinDate;
 	}
-	
+
 	public String getLastLogin() {
 		return lastLogin;
 	}
 
 	public void setLastLogin(String lastLogin) {
 		this.lastLogin = lastLogin;
+	}
+
+	public String getOauthId() {
+		return oauthId;
+	}
+
+	public void setOauthId(String oauthId) {
+		this.oauthId = oauthId;
 	}
 
 	@Override

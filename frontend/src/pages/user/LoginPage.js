@@ -11,8 +11,15 @@ import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
+import { CardMedia, IconButton } from "@mui/material";
+import Kakao from "../../images/kakao_login_medium_narrow.png";
+import { Image } from "react-bootstrap";
 
 const theme = createTheme();
+
+// 카카오 로그인을 위한 값
+const REST_API_KEY = "2e3417b542226dd863a9f1be84a1daff";
+const REDIRECT_URI = "http://localhost:4200/oauth/kakao/callback";
 
 export default function LoginPage() {
   const navigate = useNavigate();
@@ -35,6 +42,15 @@ export default function LoginPage() {
       navigate(-1);
     }
   });
+
+  const kakaoLogin = () => {
+    window.location.href =
+      "https://kauth.kakao.com/oauth/authorize?client_id=" +
+      REST_API_KEY +
+      "&redirect_uri=" +
+      REDIRECT_URI +
+      "&response_type=code";
+  };
 
   const submitLogin = (e) => {
     e.preventDefault();
@@ -106,16 +122,24 @@ export default function LoginPage() {
               name="password"
               autoComplete="current-password"
             />
-
-            <Button
-              type="submit"
-              fullWidth
-              variant="contained"
-              sx={{ mt: 3, mb: 2 }}
-              style={{ background: "#2E3B55" }}
-            >
-              로그인하기
-            </Button>
+            <Grid container spacing={2}>
+              <Grid item xs={12} sm={6}>
+                <Button
+                  type="submit"
+                  fullWidth
+                  variant="contained"
+                  sx={{ mt: 3, mb: 2 }}
+                  style={{ background: "#2E3B55", height: 43 }}
+                >
+                  로그인하기
+                </Button>
+              </Grid>
+              <Grid item xs={12} sm={6}>
+                <Button sx={{ mt: 2, mb: 2 }} fullWidth onClick={kakaoLogin}>
+                  <Image src={Kakao} />
+                </Button>
+              </Grid>
+            </Grid>
             <Grid container>
               <Grid item xs></Grid>
               <Grid item>

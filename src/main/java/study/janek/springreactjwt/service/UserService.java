@@ -94,4 +94,8 @@ public class UserService {
 		return userMapper.updatePass(username, newPass);
 	}
 	
+	public User findByOAuthId(User user) {
+		return userMapper.findByOAuthId(user);
+	}
+	
 }
