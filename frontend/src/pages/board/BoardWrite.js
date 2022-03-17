@@ -60,16 +60,12 @@ function BoardWrite() {
           id="fullWidth"
           onChange={(e) => {
             setTitle(e.target.value);
-            console.log(title);
           }}
         />
       </div>
       <CardContent>
         <CKEditor
           editor={ClassicEditor}
-          onReady={(editor) => {
-            console.log("Editor is ready to use!", editor);
-          }}
           onChange={(event, editor) => {
             const data = editor.getData();
             setContent(data);
