@@ -11,7 +11,6 @@ import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
-import { CardMedia, IconButton } from "@mui/material";
 import Kakao from "../../images/kakao_login_medium_narrow.png";
 import { Image } from "react-bootstrap";
 

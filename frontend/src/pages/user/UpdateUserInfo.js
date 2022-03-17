@@ -25,7 +25,8 @@ const theme = createTheme();
 export default function UpdateUserInfo() {
   const token = sessionStorage.getItem("Authorization");
   const navigate = useNavigate();
-  const email = useLocation().state.email.split("@");
+  const emailAddress = useLocation().state.email;
+  const email = emailAddress !== null ? emailAddress.split("@") : "";
   axios.defaults.headers.common["Authorization"] = token;
   const [user, setUser] = useState({
     password: "",

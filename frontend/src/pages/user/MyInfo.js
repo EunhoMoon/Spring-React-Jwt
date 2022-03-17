@@ -191,42 +191,44 @@ export default function MyInfo() {
           <Divider variant="inset" component="li" />
         </Collapse>
 
-        <Grid container spacing={2}>
-          <Grid item xs={12} sm={6}>
-            <Button
-              type="button"
-              variant="contained"
-              name="updateInfo"
-              onClick={moveLocation}
-              sx={{
-                mt: 3,
-                mb: 2,
-                ml: 1.5,
-                background: "#2E3B55",
-                width: "100%",
-              }}
-            >
-              정보 수정
-            </Button>
+        {!user.username.startsWith("kakao") ? (
+          <Grid container spacing={2}>
+            <Grid item xs={12} sm={6}>
+              <Button
+                type="button"
+                variant="contained"
+                name="updateInfo"
+                onClick={moveLocation}
+                sx={{
+                  mt: 3,
+                  mb: 2,
+                  ml: 1.5,
+                  background: "#2E3B55",
+                  width: "100%",
+                }}
+              >
+                정보 수정
+              </Button>
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <Button
+                type="button"
+                variant="contained"
+                name="updatePass"
+                onClick={moveLocation}
+                sx={{
+                  mt: 3,
+                  mb: 2,
+                  ml: 1.5,
+                  background: "#2E3B55",
+                  width: "100%",
+                }}
+              >
+                비밀번호 변경
+              </Button>
+            </Grid>
           </Grid>
-          <Grid item xs={12} sm={6}>
-            <Button
-              type="button"
-              variant="contained"
-              name="updatePass"
-              onClick={moveLocation}
-              sx={{
-                mt: 3,
-                mb: 2,
-                ml: 1.5,
-                background: "#2E3B55",
-                width: "100%",
-              }}
-            >
-              비밀번호 변경
-            </Button>
-          </Grid>
-        </Grid>
+        ) : null}
       </List>
     </Container>
   );

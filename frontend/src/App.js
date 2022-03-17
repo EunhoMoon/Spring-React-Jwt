@@ -19,6 +19,7 @@ import axios from "axios";
 import UserInfo from "./pages/admin/UserInfo";
 import Auth from "./Auth";
 import Profile from "./pages/user/Profile";
+import CalendarTest from "./pages/service/CalendarTest";
 
 function App() {
   const isLogin =
@@ -58,6 +59,7 @@ function App() {
           <Route path="/board/list/:pNum" element={<BoardList />} />
           <Route path="/board/write/" element={<BoardWrite />} />
           <Route path="/board/detail/:boardId" element={<BoardDetail />} />
+          <Route path="/calendar/test" element={<CalendarTest />} />
           <Route path="/calendar" element={<Calendar />} />
           <Route path="/user/updateInfo" element={<UpdateUserInfo />} />
           <Route path="/loading" element={<Loading />} />

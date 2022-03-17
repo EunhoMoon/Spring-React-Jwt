@@ -3,38 +3,41 @@ import React, { useEffect } from "react";
 import Loading from "../error/Loading";
 
 const Profile = () => {
+  const login = (username) => {
+    axios
+      .post(
+        "/login",
+        JSON.stringify({
+          username: username,
+          password: "oauth",
+        }),
+        {
+          headers: {
+            "Content-Type": `application/json`,
+          },
+        }
+      )
+      .then((res) => {
+        console.log(res);
+        const jwtToken = res.headers.authorization;
+        sessionStorage.setItem("Authorization", jwtToken);
+        alert("로그인 성공");
+        window.location.replace("/");
+      })
+      .catch((error) => {
+        if (error.response.status === 401) {
+          alert("회원 정보가 일치하지 않습니다.");
+        } else if (error.response.status === 500) {
+          alert("존재하지 않는 아이디입니다.");
+        }
+      });
+  };
   const oauthLogin = (username, account_email, name) => {
     axios
       .get("/api/findUsername/" + username)
       .then((res) => {
         if (res.data !== null && res.data !== "") {
-          axios
-            .post(
-              "/login",
-              JSON.stringify({
-                username: username,
-                password: "oauth",
-              }),
-              {
-                headers: {
-                  "Content-Type": `application/json`,
-                },
-              }
-            )
-            .then((res) => {
-              console.log(res);
-              const jwtToken = res.headers.authorization;
-              sessionStorage.setItem("Authorization", jwtToken);
-              alert("로그인 성공");
-              window.location.replace("/");
-            })
-            .catch((error) => {
-              if (error.response.status === 401) {
-                alert("회원 정보가 일치하지 않습니다.");
-              } else if (error.response.status === 500) {
-                alert("존재하지 않는 아이디입니다.");
-              }
-            });
+          login(username);
         } else {
           console.log("username", username);
           console.log("name", name);
@@ -56,33 +59,7 @@ const Profile = () => {
             )
             .then((res) => {
               if (res.status === 201) {
-                axios
-                  .post(
-                    "/login",
-                    JSON.stringify({
-                      username: username,
-                      password: "oauth",
-                    }),
-                    {
-                      headers: {
-                        "Content-Type": `application/json`,
-                      },
-                    }
-                  )
-                  .then((res) => {
-                    console.log(res);
-                    const jwtToken = res.headers.authorization;
-                    sessionStorage.setItem("Authorization", jwtToken);
-                    alert("로그인 성공");
-                    window.location.replace("/");
-                  })
-                  .catch((error) => {
-                    if (error.response.status === 401) {
-                      alert("회원 정보가 일치하지 않습니다.");
-                    } else if (error.response.status === 500) {
-                      alert("존재하지 않는 아이디입니다.");
-                    }
-                  });
+                login(username);
               }
             })
             .catch((error) => {
