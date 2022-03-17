@@ -64,6 +64,10 @@ export default function BoardList() {
       .then((res) => {
         setRows(res.data.list);
         setTotalPage(res.data.pageSize);
+      })
+      .catch(() => {
+        sessionStorage.clear();
+        window.location.replace();
       });
   }, [pNum, query]);
 
