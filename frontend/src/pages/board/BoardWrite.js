@@ -43,7 +43,10 @@ function BoardWrite() {
   };
 
   return (
-    <Card sx={{ maxWidth: 500, height: 500 }} style={{ margin: "30px auto" }}>
+    <Card
+      sx={{ maxWidth: 500, minHeight: 500 }}
+      style={{ margin: "30px auto" }}
+    >
       <div
         style={{
           paddingLeft: 16,
