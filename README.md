@@ -85,6 +85,11 @@ CREATE TABLE reply_like (
   kind VARCHAR(4) NOT NULL,
   score INT NOT NULL
 );
+```
+
+### DB Procedure & Trigger
+
+```sql
 
 /* 게시글 삭제 프로시저 */
 CREATE PROCEDURE `delete_board`(
