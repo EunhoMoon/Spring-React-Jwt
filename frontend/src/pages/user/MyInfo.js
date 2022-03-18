@@ -36,6 +36,13 @@ export default function MyInfo() {
   const token = sessionStorage.getItem("Authorization");
   const navigate = useNavigate();
   axios.defaults.headers.common["Authorization"] = token;
+  const buttonStyle = {
+    mt: 3,
+    mb: 2,
+    ml: 1.5,
+    background: "#2E3B55",
+    width: "100%",
+  };
   const [open, setOpen] = React.useState(false);
 
   const handleClick = () => {
@@ -61,7 +68,7 @@ export default function MyInfo() {
           window.location.replace("/login");
         }
       });
-  }, []);
+  }, [navigate, token]);
 
   const moveLocation = (e) => {
     const locationName = e.target.name;
@@ -199,13 +206,7 @@ export default function MyInfo() {
                 variant="contained"
                 name="updateInfo"
                 onClick={moveLocation}
-                sx={{
-                  mt: 3,
-                  mb: 2,
-                  ml: 1.5,
-                  background: "#2E3B55",
-                  width: "100%",
-                }}
+                sx={buttonStyle}
               >
                 정보 수정
               </Button>
@@ -216,13 +217,7 @@ export default function MyInfo() {
                 variant="contained"
                 name="updatePass"
                 onClick={moveLocation}
-                sx={{
-                  mt: 3,
-                  mb: 2,
-                  ml: 1.5,
-                  background: "#2E3B55",
-                  width: "100%",
-                }}
+                sx={buttonStyle}
               >
                 비밀번호 변경
               </Button>

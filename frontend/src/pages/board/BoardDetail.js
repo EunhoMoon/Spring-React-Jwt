@@ -42,11 +42,8 @@ const BoardDetail = () => {
   }, [boardId, isLike, reRender]);
 
   useEffect(() => {
-    axios
-      .post("/api/updateReadCnt/" + boardId)
-      .then((res) => {})
-      .catch((error) => {});
-  }, []);
+    axios.post("/api/updateReadCnt/" + boardId);
+  }, [boardId]);
 
   const setLike = () => {
     if (token === null || token === "") {

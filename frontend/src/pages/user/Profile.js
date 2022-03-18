@@ -95,6 +95,7 @@ const Profile = () => {
       console.log(err);
     }
   };
+
   useEffect(() => {
     getProfile();
   }, []);

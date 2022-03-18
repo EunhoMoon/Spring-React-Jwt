@@ -57,7 +57,7 @@ export default function UserInfo() {
           window.location.replace("/login");
         }
       });
-  }, []);
+  }, [username]);
 
   const backToList = () => {
     navigate(-1);

@@ -1,7 +1,7 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import LoginPage from "./pages/user/LoginPage";
 import HomePage from "./pages/HomePage";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import Header from "./component/Header";
 import MyInfo from "./pages/user/MyInfo";
 import InsetDividers from "./pages/test";
@@ -49,6 +49,7 @@ function App() {
     <div className="App">
       <BrowserRouter>
         <Header isLogin={isLogin} isAdmin={isAdmin} />
+        <React.Suspense fallback={<Loading />}></React.Suspense>
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/login" element={<LoginPage isLogin={isLogin} />} />

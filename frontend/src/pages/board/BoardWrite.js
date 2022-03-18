@@ -11,6 +11,11 @@ function BoardWrite() {
   const navigate = useNavigate();
   const token = sessionStorage.getItem("Authorization");
   axios.defaults.headers.common["Authorization"] = token;
+  const buttonStyle = {
+    mt: 2,
+    background: "#2E3B55",
+    width: "100%",
+  };
 
   const submitBoard = () => {
     if (title === "") {
@@ -77,11 +82,7 @@ function BoardWrite() {
               type="button"
               variant="contained"
               name="updateInfo"
-              sx={{
-                mt: 2,
-                background: "#2E3B55",
-                width: "100%",
-              }}
+              sx={buttonStyle}
               onClick={submitBoard}
             >
               글 등록
@@ -92,11 +93,7 @@ function BoardWrite() {
               type="button"
               variant="contained"
               name="updatePass"
-              sx={{
-                mt: 2,
-                background: "#2E3B55",
-                width: "100%",
-              }}
+              sx={buttonStyle}
               onClick={() => {
                 navigate(-1);
               }}

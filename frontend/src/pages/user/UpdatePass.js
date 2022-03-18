@@ -27,6 +27,7 @@ export default function UpdatePass() {
     oldPassword: "",
     newPassword: "",
   });
+  const buttonStyle = { mt: 3, mb: 2, background: "#2E3B55" };
 
   const [checkPass, setCheckPass] = React.useState(false);
   const [passImg, setPassImg] = React.useState(
@@ -199,7 +200,7 @@ export default function UpdatePass() {
                   type="submit"
                   fullWidth
                   variant="contained"
-                  sx={{ mt: 3, mb: 2, background: "#2E3B55" }}
+                  sx={buttonStyle}
                 >
                   비밀번호 변경
                 </Button>
@@ -209,9 +210,9 @@ export default function UpdatePass() {
                   type="button"
                   fullWidth
                   variant="contained"
-                  sx={{ mt: 3, mb: 2, background: "#2E3B55" }}
+                  sx={buttonStyle}
                   onClick={() => {
-                    navigate(-1);
+                    navigate("/user/myInfo");
                   }}
                 >
                   취 소

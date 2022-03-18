@@ -48,24 +48,22 @@ export default function UserList({ isAdmin }) {
     keyword: state === null ? "" : state.keyword,
     isOnly: state === null ? "n" : state.isOnly,
   });
+  let url =
+    "/api/admin/getUserList/" +
+    pNum +
+    "?search=" +
+    query.search +
+    "&keyword=" +
+    query.keyword +
+    "&isOnly=" +
+    query.isOnly;
 
   React.useEffect(() => {
-    axios
-      .get(
-        "/api/admin/getUserList/" +
-          pNum +
-          "?search=" +
-          query.search +
-          "&keyword=" +
-          query.keyword +
-          "&isOnly=" +
-          query.isOnly
-      )
-      .then((res) => {
-        setRows(res.data.list);
-        setTotalPage(res.data.pageSize);
-      });
-  }, [pNum, query]);
+    axios.get(url).then((res) => {
+      setRows(res.data.list);
+      setTotalPage(res.data.pageSize);
+    });
+  }, [url, query]);
 
   const handleBoardSearch = () => {
     setQuery({
@@ -78,12 +76,17 @@ export default function UserList({ isAdmin }) {
     navigate("/admin/user/list/" + value);
   };
 
-  const handleKeywordChange = (event) => {
-    setKeyword(event.target.value);
-  };
-
-  const handleSearchChange = (event) => {
-    setSearch(event.target.value);
+  const handleChange = (event) => {
+    switch (event.target.name) {
+      case "keyword":
+        setKeyword(event.target.value);
+        break;
+      case "search":
+        setSearch(event.target.value);
+        break;
+      default:
+        alert("경로를 찾지 못했습니다.");
+    }
   };
 
   return (
@@ -162,7 +165,8 @@ export default function UserList({ isAdmin }) {
                     labelId="label"
                     id="demo-simple-select-standard"
                     value={search}
-                    onChange={handleSearchChange}
+                    onChange={handleChange}
+                    name="search"
                     size="small"
                     label="검색조건"
                   >
@@ -182,7 +186,8 @@ export default function UserList({ isAdmin }) {
                   label="검색어"
                   variant="outlined"
                   size="small"
-                  onChange={handleKeywordChange}
+                  name="keyword"
+                  onChange={handleChange}
                   defaultValue={keyword}
                 />
               </div>
