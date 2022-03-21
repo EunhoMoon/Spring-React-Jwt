@@ -18,6 +18,7 @@ plugins
 
 ### React
 
+- yarn add http-proxy-middleware
 - yarn add axios
 - yarn add react-router-dom@5.2.0
 - yarn add redux react-redux
